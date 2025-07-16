@@ -570,6 +570,15 @@ public class Vista extends Frame implements MouseListener
 		dlgExitoAlta.setBackground(clrExito);
 		dlgExitoAlta.setForeground(Color.darkGray);
 		dlgExitoAlta.setFont(fntHe);
+		// DIÁLOGO Fallo Alta
+		dlgFalloAlta.setLayout(new FlowLayout());
+		dlgFalloAlta.setSize(200, 100);
+		dlgFalloAlta.setResizable(false);
+		dlgFalloAlta.add(lblFalloAlta);
+		dlgFalloAlta.setLocationRelativeTo(null);
+		dlgFalloAlta.setBackground(clrError);
+		dlgFalloAlta.setForeground(Color.darkGray);
+		dlgFalloAlta.setFont(fntHe);
 		// DIÁLOGO Éxito Baja
 		dlgExitoBaja.setLayout(new FlowLayout());
 		dlgExitoBaja.setSize(200, 100);

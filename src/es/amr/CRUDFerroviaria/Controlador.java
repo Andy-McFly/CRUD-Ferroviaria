@@ -388,7 +388,6 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		}
 		else if(btn.getSource().equals(vista.btnCancelBTren)) 
 		{
-			vista.dlgFalloBajaT.setVisible(true); //BORRAR
 			vista.dlgBTren.dispose();
 		}
 //-------------------CRUD Ciudades-------------------
@@ -397,18 +396,26 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		{
 			if(!vista.txfNombreC.getText().isEmpty()) 
 			{
+				vista.lblConfCiudadNombre.setText(vista.txfNombreC.getText());
 				vista.dlgConfCiudad.setVisible(true);
 			}
 		}
-		
 		else if(btn.getSource().equals(vista.btnOkConfCiudad)) 
 		{
-			//Base de datos
-			vista.txfNombreC.setText(null);
-			vista.txfNombreC.requestFocus();
+			connection = modelo.conectar();
+			if(modelo.altaCiudades(connection, vista.txfNombreC.getText(), vista.txfUsuario.getText())) 
+			{
+				vista.txfNombreC.setText(null);
+				vista.txfNombreC.requestFocus();
+				vista.dlgExitoAlta.setVisible(true);
+			}
+			else 
+			{
+				vista.dlgFalloAlta.setVisible(true);
+			}
+			modelo.desconectar(connection);
 			vista.dlgConfCiudad.dispose();
 		}
-		
 		else if(btn.getSource().equals(vista.btnCancelConfCiudad)) 
 		{
 			vista.dlgConfCiudad.dispose();
@@ -505,6 +512,10 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		else if (eCerrar.getSource().equals(vista.dlgExitoAlta))
 		{
 			vista.dlgExitoAlta.dispose();
+		}
+		else if (eCerrar.getSource().equals(vista.dlgFalloAlta))
+		{
+			vista.dlgFalloAlta.dispose();
 		}
 		else if (eCerrar.getSource().equals(vista.dlgExitoBaja))
 		{

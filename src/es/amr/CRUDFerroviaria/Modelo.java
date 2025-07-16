@@ -114,6 +114,24 @@ public class Modelo
 		return resultado;
 	}
 	
+//-------------------CRUD Ciudades-------------------
+	public boolean altaCiudades(Connection connection, String ciudad, String nombreUser)
+	{
+		boolean resultado = false;
+		try
+		{
+			statement = connection.createStatement();
+			sentencia = "INSERT INTO ciudades VALUES (null,'" + ciudad + "');";
+			statement.executeUpdate(sentencia);
+			resultado = true;
+			historicoLog(nombreUser, "Alta Ciudad: "+sentencia);
+		} 
+		catch (SQLException sqle)
+		{
+			resultado = false;
+		}
+		return resultado;
+	}
 //-------------------Herramientas Varias-------------------
 	public boolean rellenarChoiceTrenes(Connection connection, Choice choTrenes)
 	{
