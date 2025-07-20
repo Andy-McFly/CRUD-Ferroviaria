@@ -18,6 +18,7 @@ import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.Panel;
+import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
@@ -31,6 +32,9 @@ public class Vista extends Frame implements MouseListener
 	String confCarga = "    Tipo de carga: ";
 	String confPrecio = "    Precio del billete: ";
 	String confFecha = "    Fecha del último mantenimiento: ";
+	String confNombre = "    Nombre: ";
+	String confDireccion = "    Dirección: ";
+	String confCiudadFK = "    Ciudad: ";
 //--------------Login--------------
 	Frame vLogin;
 	TextField txfUsuario = new TextField(20);
@@ -141,26 +145,174 @@ public class Vista extends Frame implements MouseListener
 	Button btnCancelBTren = new Button(" Cancelar ");
 	Panel pnlBTren = new Panel();
 	// DIÁLOGO Fallo Baja
-	Dialog dlgFalloBajaT = new Dialog(vAltaTren, "Error", true);
+	Dialog dlgFalloBajaT = new Dialog(vBajaTren, "Error", true);
 	Label lblFalloBajaT = new Label("No se puede completar la Baja");
 	Label lblFalloBajaT2 = new Label("Tren relacionado con una parada");
 	Label lblFalloBajaT3 = new Label("Borrar primero la parada");
-	
+//--------------Consultar Trenes--------------
+	Frame vConsultarTren = new Frame("Lista de Trenes");
+	TextArea txaTrenes = new TextArea(15, 45);
+	Button btnExcelTren = new Button(" Exportar EXCEL ");
+	Panel pnlCTren = new Panel();
+//--------------Modificar Trenes--------------
 	
 //--------------Alta Ciudades--------------
-	Frame vAltaCiudad = new Frame("Registro de ciudades");
+	Frame vAltaCiudad = new Frame("Registro de Ciudades");
 	Label lblNombreC = new Label("Nombre de la ciudad:");
 	TextField txfNombreC = new TextField(20);
-	Button btnRegistroCiudad = new Button("Registrar Ciudad");
+	Button btnRegistroCiudad = new Button(" Registrar Ciudad ");
 	Panel pnlACiudad = new Panel();
 	Panel pnlACiudad2 = new Panel();
 	// DIÁLOGO Confirmar Alta
-	Dialog dlgConfCiudad = new Dialog(vAltaTren, "Confirmar Registro", true);
+	Dialog dlgConfCiudad = new Dialog(vAltaCiudad, "Confirmar Registro", true);
 	Label lblConfCiudad = new Label("Registrar Ciudad con el siguiente nombre:");
 	Label lblConfCiudadNombre = new Label("Nombre");
 	Button btnOkConfCiudad = new Button(" Aceptar ");
 	Button btnCancelConfCiudad = new Button(" Cancelar ");
 	Panel pnlConfCiudad = new Panel();
+//--------------Baja Ciudades--------------
+	Frame vBajaCiudad = new Frame("Baja de Ciudades");
+	Choice choCiudades = new Choice();
+	Button btnBorrarCiudad = new Button("Borrar Ciudad");
+	Panel pnlBajaCiudad1 = new Panel();
+	Panel pnlBajaCiudad2 = new Panel();
+	// DIÁLOGO Confirmar Baja
+	Dialog dlgBCiudad = new Dialog(vBajaCiudad, "Confirmar Baja", true);
+	Label lblBCiudad = new Label("Eliminar Ciudad con el siguiente nombre:");
+	Label lblBCiudadNombre = new Label("Nombre");
+	Button btnOkBCiudad = new Button(" Aceptar ");
+	Button btnCancelBCiudad = new Button(" Cancelar ");
+	Panel pnlBCiudad = new Panel();
+	// DIÁLOGO Fallo Baja
+	Dialog dlgFalloBajaC = new Dialog(vBajaCiudad, "Error", true);
+	Label lblFalloBajaC = new Label("No se puede completar la Baja");
+	Label lblFalloBajaC2 = new Label("Ciudad relacionada con una estación");
+	Label lblFalloBajaC3 = new Label("Borrar primero la estación");
+//--------------Consultar Ciudades--------------
+	Frame vConsultarCiudad = new Frame("Lista de Ciudades");
+	TextArea txaCiudad = new TextArea(15, 45);
+	Button btnExcelCiudad = new Button(" Exportar EXCEL ");
+	Panel pnlCCiudad = new Panel();
+//--------------Modificar Ciudades--------------
+	
+//--------------Alta Estaciones--------------
+	Frame vAltaEstacion = new Frame("Registro de Estaciones");
+	Label lblEstacionNombre = new Label("Nombre:");
+	Label lblEstacionDireccion = new Label("Dirección:");
+	TextField txfEstacionNombre = new TextField(19);
+	TextField txfEstacionDireccion = new TextField(20);
+	Choice choCiudades2 = new Choice();
+	Button btnRegistroEstacion = new Button(" Registrar Estación ");
+	Panel pnlAEstacion = new Panel();
+	Panel pnlAEstacion2 = new Panel();
+	Panel pnlAEstacion3 = new Panel();
+	Panel pnlAEstacion4 = new Panel();
+	// DIÁLOGO
+	Dialog dlgNoNombre = new Dialog(vAltaEstacion, "Aviso", true);
+	Label lblNoNombre = new Label("Escriba el nombre de la estación");
+	Button btnOkNombre = new Button(" Aceptar ");
+	Panel pnlNoNombre = new Panel();
+	// DIÁLOGO 2
+	Dialog dlgNoDireccion = new Dialog(vAltaEstacion, "Aviso", true);
+	Label lblNoDireccion = new Label("Escriba la dirección de la estación");
+	Button btnOkDireccion = new Button(" Aceptar ");
+	Panel pnlNoDireccion = new Panel();
+	// DIÁLOGO 3
+	Dialog dlgNoCiudad = new Dialog(vAltaEstacion, "Aviso", true);
+	Label lblNoCiudad = new Label("Debe seleccionar una ciudad");
+	Button btnOkNoCiudad = new Button(" Aceptar ");
+	Panel pnlNoCiudad = new Panel();
+	// DIÁLOGO Confirmar Alta
+	Dialog dlgConfEstacion = new Dialog(vAltaEstacion, "Confirmar Registro", true);
+	Label lblConfEstacion = new Label("Registrar Estación con los siguientes datos:");
+	Label lblConfEstacionNombre = new Label(confNombre);
+	Label lblConfEstacionDireccion = new Label(confDireccion);
+	Label lblConfEstacionCiudadFK = new Label(confCiudadFK);
+	Button btnOkConfEstacion = new Button(" Aceptar ");
+	Button btnCancelConfEstacion = new Button(" Cancelar ");
+	Panel pnlConfEstacion = new Panel();
+//--------------Baja Estaciones--------------
+	Frame vBajaEstacion = new Frame("Baja de Estaciones");
+	Choice choEstaciones = new Choice();
+	Button btnBorrarEstacion = new Button(" Borrar Estación ");
+	Panel pnlBajaEstacion1 = new Panel();
+	Panel pnlBajaEstacion2 = new Panel();
+	// DIÁLOGO Confirmar Baja
+	Dialog dlgBEstacion = new Dialog(vBajaEstacion, "Confirmar Baja", true);
+	Label lblBEstacion = new Label("Eliminar Estación con los siguientes datos:");
+	Label lblBEstacionNombre = new Label(confNombre);
+	Label lblBEstacionDireccion = new Label(confDireccion);
+	Label lblBEstacionCiudadFK = new Label(confCiudadFK);
+	Button btnOkBEstacion = new Button(" Aceptar ");
+	Button btnCancelBEstacion = new Button(" Cancelar ");
+	Panel pnlBEstacion = new Panel();
+	// DIÁLOGO Fallo Baja
+	Dialog dlgFalloBajaE = new Dialog(vBajaEstacion, "Error", true);
+	Label lblFalloBajaE = new Label("No se puede completar la Baja");
+	Label lblFalloBajaE2 = new Label("Estación relacionada con una parada");
+	Label lblFalloBajaE3 = new Label("Borrar primero la parada");
+//--------------Consultar Estaciones--------------
+	Frame vConsultarEstacion = new Frame("Lista de Estaciones");
+	TextArea txaEstacion = new TextArea(15, 45);
+	Button btnExcelEstacion = new Button(" Exportar EXCEL ");
+	Panel pnlCEstacion = new Panel();
+//--------------Modificar Estaciones--------------
+	
+//--------------Alta Paradas--------------
+	Frame vAltaParada = new Frame("Registro de estacionamientos");
+	Choice choParadaTren = new Choice();
+	Choice choParadaEstacion = new Choice();
+	Button btnRegistroParada = new Button(" Registrar Parada ");
+	Panel pnlAParada = new Panel();
+	Panel pnlAParada2 = new Panel();
+	Panel pnlAParada3 = new Panel();
+	// DIÁLOGO 1
+	Dialog dlgNoTren = new Dialog(vAltaParada, "Aviso", true);
+	Label lblNoTren = new Label("Debe seleccionar un tren");
+	Button btnOkNoTren = new Button(" Aceptar ");
+	Panel pnlNoTren = new Panel();
+	// DIÁLOGO 2
+	Dialog dlgNoEstacion = new Dialog(vAltaParada, "Aviso", true);
+	Label lblNoEstacion = new Label("Debe seleccionar una estación");
+	Button btnOkNoEstacion = new Button(" Aceptar ");
+	Panel pnlNoEstacion = new Panel();
+	// DIÁLOGO Confirmar Alta
+	Dialog dlgConfParada = new Dialog(vAltaParada, "Confirmar Registro", true);
+	Label lblConfParada = new Label("Registrar Parada con los siguientes datos:");
+	Label lblConfParadaTren = new Label(" Tren:");
+	Label lblConfParadaTrenClase = new Label(confClase);
+	Label lblConfParadaTrenCarga = new Label(confCarga);
+	Label lblConfParadaEstacion = new Label(" Estación:");
+	Label lblConfParadaEstacionNombre = new Label(confNombre);
+	Label lblConfParadaEstacionCiudadFK = new Label(confCiudadFK);
+	Button btnOkConfParada = new Button(" Aceptar ");
+	Button btnCancelConfParada = new Button(" Cancelar ");
+	Panel pnlConfParada = new Panel();
+//--------------Baja Paradas--------------
+	Frame vBajaParada = new Frame("Baja de Paradas");
+	Choice choParadas = new Choice();
+	Button btnBorrarParada = new Button(" Borrar Parada ");
+	Panel pnlBajaParada1 = new Panel();
+	Panel pnlBajaParada2 = new Panel();
+	// DIÁLOGO Confirmar Baja
+	Dialog dlgBParada = new Dialog(vBajaParada, "Confirmar Baja", true);
+	Label lblBParada = new Label("Eliminar Parada con los siguientes datos:");
+	Label lblBParadaTren = new Label(" Tren:");
+	Label lblBParadaTrenClase = new Label(confClase);
+	Label lblBParadaTrenCarga = new Label(confCarga);
+	Label lblBParadaEstacion = new Label(" Estación:");
+	Label lblBParadaEstacionNombre = new Label(confNombre);
+	Label lblBParadaEstacionCiudadFK = new Label(confCiudadFK);
+	Button btnOkBParada = new Button(" Aceptar ");
+	Button btnCancelBParada = new Button(" Cancelar ");
+	Panel pnlBParada = new Panel();
+//--------------Consultar Paradas--------------
+	Frame vConsultarParada = new Frame("Lista de Paradas");
+	TextArea txaParada = new TextArea(15, 45);
+	Button btnExcelParada = new Button(" Exportar EXCEL ");
+	Panel pnlCParada = new Panel();
+//--------------Modificar Paradas--------------
+	
 	
 //--------------Uso General--------------
 	// DIÁLOGO Éxito Alta
@@ -521,6 +673,8 @@ public class Vista extends Frame implements MouseListener
 		dlgFalloBajaT.add(lblFalloBajaT2);
 		dlgFalloBajaT.add(lblFalloBajaT3);
 //--------------VENTANA Consultar Trenes--------------
+
+		
 		
 //--------------VENTANA Modificar Trenes--------------
 		
@@ -558,7 +712,307 @@ public class Vista extends Frame implements MouseListener
 		pnlConfCiudad.add(btnOkConfCiudad);
 		pnlConfCiudad.add(btnCancelConfCiudad);
 		dlgConfCiudad.add(pnlConfCiudad);
+//--------------VENTANA Baja Ciudades--------------
+		vBajaCiudad.setLayout(new GridLayout(2, 1));
+		vBajaCiudad.setSize(300, 180);
+		vBajaCiudad.setResizable(false);
+		vBajaCiudad.setLocationRelativeTo(null);
+		vBajaCiudad.setBackground(Color.lightGray);
+		Dimension dmChoCiudades = new Dimension(230,30);
+		choCiudades.setPreferredSize(dmChoCiudades);
+		pnlBajaCiudad1.add(choCiudades);
+		vBajaCiudad.add(pnlBajaCiudad1);
+		pnlBajaCiudad2.add(btnBorrarCiudad);
+		vBajaCiudad.add(pnlBajaCiudad2);
+		//DIÁLOGO Baja Ciudades (Confirmar Baja)
+		dlgBCiudad.setLayout(new GridLayout(3,1));
+		dlgBCiudad.setSize(330, 200);
+		dlgBCiudad.setResizable(false);
+		dlgBCiudad.setLocationRelativeTo(null);
+		dlgBCiudad.setBackground(clrAviso);
+		dlgBCiudad.setForeground(Color.darkGray);
+		lblBCiudad.setFont(fntLiB);
+		lblBCiudad.setAlignment(Label.CENTER);
+		lblBCiudadNombre.setFont(fntHe);
+		lblBCiudadNombre.setAlignment(Label.CENTER);
+		btnOkBCiudad.setFont(fntMe);
+		btnCancelBCiudad.setFont(fntMe);
+		dlgBCiudad.add(lblBCiudad);
+		dlgBCiudad.add(lblBCiudadNombre);
+		pnlBCiudad.add(btnOkBCiudad);
+		pnlBCiudad.add(btnCancelBCiudad);
+		dlgBCiudad.add(pnlBCiudad);
+		// DIÁLOGO Baja Ciudades (Fallo Baja)
+		dlgFalloBajaC.setLayout(new GridLayout(3, 1));
+		dlgFalloBajaC.setSize(360, 170);
+		dlgFalloBajaC.setResizable(false);
+		dlgFalloBajaC.setLocationRelativeTo(null);
+		dlgFalloBajaC.setBackground(clrError);
+		dlgFalloBajaC.setForeground(Color.darkGray);
+		dlgFalloBajaC.setFont(fntHe);
+		lblFalloBajaC.setAlignment(Label.CENTER);
+		lblFalloBajaC2.setAlignment(Label.CENTER);
+		lblFalloBajaC3.setAlignment(Label.CENTER);
+		dlgFalloBajaC.add(lblFalloBajaC);
+		dlgFalloBajaC.add(lblFalloBajaC2);
+		dlgFalloBajaC.add(lblFalloBajaC3);
+//--------------VENTANA Consultar Ciudades--------------
 		
+//--------------VENTANA Modificar Ciudades--------------
+		
+//--------------VENTANA Alta Estaciones--------------
+		vAltaEstacion.setLayout(new GridLayout(4, 1));
+		vAltaEstacion.setSize(420, 250);
+		vAltaEstacion.setResizable(false);
+		vAltaEstacion.setLocationRelativeTo(null);
+		vAltaEstacion.setBackground(Color.lightGray);
+		lblEstacionNombre.setFont(fntLi2);
+		txfEstacionNombre.setFont(fntLiB);
+		lblEstacionDireccion.setFont(fntLi2);
+		txfEstacionDireccion.setFont(fntLiB);
+		btnRegistroEstacion.setFont(fntMe);
+		btnRegistroEstacion.setForeground(Color.darkGray);
+		choCiudades2.setPreferredSize(dmChoCiudades);
+		pnlAEstacion.add(lblEstacionNombre);
+		pnlAEstacion.add(txfEstacionNombre);
+		pnlAEstacion2.add(lblEstacionDireccion);
+		pnlAEstacion2.add(txfEstacionDireccion);
+		pnlAEstacion3.add(choCiudades2);
+		pnlAEstacion4.add(btnRegistroEstacion);
+		vAltaEstacion.add(pnlAEstacion);
+		vAltaEstacion.add(pnlAEstacion2);
+		vAltaEstacion.add(pnlAEstacion3);
+		vAltaEstacion.add(pnlAEstacion4);
+		// DIÁLOGO Alta Estaciones (Nombre vacío)
+		dlgNoNombre.setLayout(new GridLayout(2,1));
+		dlgNoNombre.setSize(300, 120);
+		dlgNoNombre.setResizable(false);
+		dlgNoNombre.setLocationRelativeTo(null);
+		dlgNoNombre.setBackground(clrAviso);
+		lblNoNombre.setForeground(Color.darkGray);
+		lblNoNombre.setFont(fntHe);
+		lblNoNombre.setAlignment(Label.CENTER);
+		btnOkNombre.setFont(fntMe);
+		btnOkNombre.setForeground(Color.darkGray);
+		dlgNoNombre.add(lblNoNombre);
+		pnlNoNombre.add(btnOkNombre);
+		dlgNoNombre.add(pnlNoNombre);
+		// DIÁLOGO Alta Estaciones (Dirección vacía)
+		dlgNoDireccion.setLayout(new GridLayout(2,1));
+		dlgNoDireccion.setSize(310, 120);
+		dlgNoDireccion.setResizable(false);
+		dlgNoDireccion.setLocationRelativeTo(null);
+		dlgNoDireccion.setBackground(clrAviso);
+		lblNoDireccion.setForeground(Color.darkGray);
+		lblNoDireccion.setFont(fntHe);
+		lblNoDireccion.setAlignment(Label.CENTER);
+		btnOkDireccion.setFont(fntMe);
+		btnOkDireccion.setForeground(Color.darkGray);
+		dlgNoDireccion.add(lblNoDireccion);
+		pnlNoDireccion.add(btnOkDireccion);
+		dlgNoDireccion.add(pnlNoDireccion);
+		// DIÁLOGO Alta Estaciones (Ciudad no seleccionada)
+		dlgNoCiudad.setLayout(new GridLayout(2,1));
+		dlgNoCiudad.setSize(310, 120);
+		dlgNoCiudad.setResizable(false);
+		dlgNoCiudad.setLocationRelativeTo(null);
+		dlgNoCiudad.setBackground(clrAviso);
+		lblNoCiudad.setForeground(Color.darkGray);
+		lblNoCiudad.setFont(fntHe);
+		lblNoCiudad.setAlignment(Label.CENTER);
+		btnOkNoCiudad.setFont(fntMe);
+		btnOkNoCiudad.setForeground(Color.darkGray);
+		dlgNoCiudad.add(lblNoCiudad);
+		pnlNoCiudad.add(btnOkNoCiudad);
+		dlgNoCiudad.add(pnlNoCiudad);
+		// DIÁLOGO Alta Estaciones (Confrimar Alta)
+		dlgConfEstacion.setLayout(new GridLayout(5,1));
+		dlgConfEstacion.setSize(340, 270);
+		dlgConfEstacion.setResizable(false);
+		dlgConfEstacion.setLocationRelativeTo(null);
+		dlgConfEstacion.setBackground(clrAviso);
+		dlgConfEstacion.setForeground(Color.darkGray);
+		lblConfEstacion.setFont(fntLiB);
+		lblConfEstacion.setAlignment(Label.CENTER);
+		lblConfEstacionNombre.setFont(fntLi);
+		lblConfEstacionDireccion.setFont(fntLi);
+		lblConfEstacionCiudadFK.setFont(fntLi);
+		btnOkConfEstacion.setFont(fntMe);
+		btnCancelConfEstacion.setFont(fntMe);
+		dlgConfEstacion.add(lblConfEstacion);
+		dlgConfEstacion.add(lblConfEstacionNombre);
+		dlgConfEstacion.add(lblConfEstacionDireccion);
+		dlgConfEstacion.add(lblConfEstacionCiudadFK);
+		pnlConfEstacion.add(btnOkConfEstacion);
+		pnlConfEstacion.add(btnCancelConfEstacion);
+		dlgConfEstacion.add(pnlConfEstacion);
+//--------------VENTANA Baja Estaciones--------------
+		vBajaEstacion.setLayout(new GridLayout(2, 1));
+		vBajaEstacion.setSize(300, 180);
+		vBajaEstacion.setResizable(false);
+		vBajaEstacion.setLocationRelativeTo(null);
+		vBajaEstacion.setBackground(Color.lightGray);
+		btnBorrarEstacion.setFont(fntMe);
+		btnBorrarEstacion.setForeground(Color.darkGray);
+		choEstaciones.setFont(fntLi);
+		Dimension dmChoEstaciones = new Dimension(230,30);
+		choEstaciones.setPreferredSize(dmChoEstaciones);
+		pnlBajaEstacion1.add(choEstaciones);
+		vBajaEstacion.add(pnlBajaEstacion1);
+		pnlBajaEstacion2.add(btnBorrarEstacion);
+		vBajaEstacion.add(pnlBajaEstacion2);
+		// DIÁLOGO Baja Estaciones (Confirmar Baja)
+		dlgBEstacion.setLayout(new GridLayout(5,1));
+		dlgBEstacion.setSize(340, 270);
+		dlgBEstacion.setResizable(false);
+		dlgBEstacion.setLocationRelativeTo(null);
+		dlgBEstacion.setBackground(clrAviso);
+		dlgBEstacion.setForeground(Color.darkGray);
+		lblBEstacion.setFont(fntLiB);
+		lblBEstacion.setAlignment(Label.CENTER);
+		lblBEstacionNombre.setFont(fntLi);
+		lblBEstacionDireccion.setFont(fntLi);
+		lblBEstacionCiudadFK.setFont(fntLi);
+		btnOkBEstacion.setFont(fntMe);
+		btnCancelBEstacion.setFont(fntMe);
+		dlgBEstacion.add(lblBEstacion);
+		dlgBEstacion.add(lblBEstacionNombre);
+		dlgBEstacion.add(lblBEstacionDireccion);
+		dlgBEstacion.add(lblBEstacionCiudadFK);
+		pnlBEstacion.add(btnOkBEstacion);
+		pnlBEstacion.add(btnCancelBEstacion);
+		dlgBEstacion.add(pnlBEstacion);
+		//DIÁLOGO Baja Estaciones (Fallo Baja)
+		dlgFalloBajaE.setLayout(new GridLayout(3, 1));
+		dlgFalloBajaE.setSize(360, 170);
+		dlgFalloBajaE.setResizable(false);
+		dlgFalloBajaE.setLocationRelativeTo(null);
+		dlgFalloBajaE.setBackground(clrError);
+		dlgFalloBajaE.setForeground(Color.darkGray);
+		dlgFalloBajaE.setFont(fntHe);
+		lblFalloBajaE.setAlignment(Label.CENTER);
+		lblFalloBajaE2.setAlignment(Label.CENTER);
+		lblFalloBajaE3.setAlignment(Label.CENTER);
+		dlgFalloBajaE.add(lblFalloBajaE);
+		dlgFalloBajaE.add(lblFalloBajaE2);
+		dlgFalloBajaE.add(lblFalloBajaE3);
+//--------------VENTANA Consultar Estaciones--------------
+		
+//--------------VENTANA Modificar Estaciones--------------
+		
+//--------------VENTANA Alta Paradas--------------
+		vAltaParada.setLayout(new GridLayout(3, 1));
+		vAltaParada.setSize(350, 250);
+		vAltaParada.setResizable(false);
+		vAltaParada.setLocationRelativeTo(null);
+		vAltaParada.setBackground(Color.lightGray);
+		pnlAParada.add(choParadaTren);
+		pnlAParada2.add(choParadaEstacion);
+		pnlAParada3.add(btnRegistroParada);
+		vAltaParada.add(pnlAParada);
+		vAltaParada.add(pnlAParada2);
+		vAltaParada.add(pnlAParada3);
+		// DIÁLOGO Alta Paradas (Tren no seleccionado)
+		dlgNoTren.setLayout(new GridLayout(2, 1));
+		dlgNoTren.setSize(310, 120);
+		dlgNoTren.setResizable(false);
+		dlgNoTren.setLocationRelativeTo(null);
+		dlgNoTren.setBackground(clrAviso);
+		lblNoTren.setForeground(Color.darkGray);
+		lblNoTren.setFont(fntHe);
+		lblNoTren.setAlignment(Label.CENTER);
+		btnOkNoTren.setFont(fntMe);
+		btnOkNoTren.setForeground(Color.darkGray);
+		dlgNoTren.add(lblNoTren);
+		pnlNoTren.add(btnOkNoTren);
+		dlgNoTren.add(pnlNoTren);
+		// DIÁLOGO Alta Paradas (Estación no seleccionada)
+		dlgNoEstacion.setLayout(new GridLayout(2, 1));
+		dlgNoEstacion.setSize(310, 120);
+		dlgNoEstacion.setResizable(false);
+		dlgNoEstacion.setLocationRelativeTo(null);
+		dlgNoEstacion.setBackground(clrAviso);
+		lblNoEstacion.setForeground(Color.darkGray);
+		lblNoEstacion.setFont(fntHe);
+		lblNoEstacion.setAlignment(Label.CENTER);
+		btnOkNoEstacion.setFont(fntMe);
+		btnOkNoEstacion.setForeground(Color.darkGray);
+		dlgNoEstacion.add(lblNoEstacion);
+		pnlNoEstacion.add(btnOkNoEstacion);
+		dlgNoEstacion.add(pnlNoEstacion);
+		// DIÁLOGO Alta Paradas (Confirmar Alta)
+		dlgConfParada.setLayout(new GridLayout(8,1));
+		dlgConfParada.setSize(340, 350);
+		dlgConfParada.setResizable(false);
+		dlgConfParada.setLocationRelativeTo(null);
+		dlgConfParada.setBackground(clrAviso);
+		dlgConfParada.setForeground(Color.darkGray);
+		lblConfParada.setFont(fntLiB);
+		lblConfParada.setAlignment(Label.CENTER);
+		lblConfParadaTren.setFont(fntLiB);
+		lblConfParadaEstacion.setFont(fntLiB);
+		lblConfParadaTrenClase.setFont(fntLi);
+		lblConfParadaTrenCarga.setFont(fntLi);
+		lblConfParadaEstacionNombre.setFont(fntLi);
+		lblConfParadaEstacionCiudadFK.setFont(fntLi);
+		btnOkConfParada.setFont(fntMe);
+		btnCancelConfParada.setFont(fntMe);
+		dlgConfParada.add(lblConfParada);
+		dlgConfParada.add(lblConfParadaTren);
+		dlgConfParada.add(lblConfParadaTrenClase);
+		dlgConfParada.add(lblConfParadaTrenCarga);
+		dlgConfParada.add(lblConfParadaEstacion);
+		dlgConfParada.add(lblConfParadaEstacionNombre);
+		dlgConfParada.add(lblConfParadaEstacionCiudadFK);
+		pnlConfParada.add(btnOkConfParada);
+		pnlConfParada.add(btnCancelConfParada);
+		dlgConfParada.add(pnlConfParada);
+//--------------VENTANA Baja Paradas--------------
+		vBajaParada.setLayout(new GridLayout(2, 1));
+		vBajaParada.setSize(300, 180);
+		vBajaParada.setResizable(false);
+		vBajaParada.setLocationRelativeTo(null);
+		vBajaParada.setBackground(Color.lightGray);
+		btnBorrarParada.setFont(fntMe);
+		btnBorrarParada.setForeground(Color.darkGray);
+		choParadas.setFont(fntLi);
+		Dimension dmChoParadas = new Dimension(230,30);
+		choParadas.setPreferredSize(dmChoParadas);
+		pnlBajaParada1.add(choParadas);
+		vBajaParada.add(pnlBajaParada1);
+		pnlBajaParada2.add(btnBorrarParada);
+		vBajaParada.add(pnlBajaParada2);
+		// DIÁLOGO Baja Paradas (Confirmar Baja)
+		dlgBParada.setLayout(new GridLayout(8,1));
+		dlgBParada.setSize(340, 350);
+		dlgBParada.setResizable(false);
+		dlgBParada.setLocationRelativeTo(null);
+		dlgBParada.setBackground(clrAviso);
+		dlgBParada.setForeground(Color.darkGray);
+		lblBParada.setFont(fntLiB);
+		lblBParada.setAlignment(Label.CENTER);
+		lblBParadaTren.setFont(fntLiB);
+		lblBParadaEstacion.setFont(fntLiB);
+		lblBParadaTrenClase.setFont(fntLi);
+		lblBParadaTrenCarga.setFont(fntLi);
+		lblBParadaEstacionNombre.setFont(fntLi);
+		lblBParadaEstacionCiudadFK.setFont(fntLi);
+		btnOkBParada.setFont(fntMe);
+		btnCancelBParada.setFont(fntMe);
+		dlgBParada.add(lblBParada);
+		dlgBParada.add(lblBParadaTren);
+		dlgBParada.add(lblBParadaTrenClase);
+		dlgBParada.add(lblBParadaTrenCarga);
+		dlgBParada.add(lblBParadaEstacion);
+		dlgBParada.add(lblBParadaEstacionNombre);
+		dlgBParada.add(lblBParadaEstacionCiudadFK);
+		pnlBParada.add(btnOkBParada);
+		pnlBParada.add(btnCancelBParada);
+		dlgBParada.add(pnlBParada);
+		
+//--------------VENTANA Consultar Paradas--------------
+		
+//--------------VENTANA Modificar Paradas--------------
 		
 //--------------Varios--------------
 		// DIÁLOGO Éxito Alta
