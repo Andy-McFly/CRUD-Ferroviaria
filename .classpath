@@ -12,5 +12,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/FicherosExcel/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="C:/FicherosExcel/commons-compress-1.19.jar"/>
+	<classpathentry kind="lib" path="C:/FicherosExcel/poi-4.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/FicherosExcel/poi-ooxml-4.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/FicherosExcel/poi-ooxml-schemas-4.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/FicherosExcel/xmlbeans-3.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

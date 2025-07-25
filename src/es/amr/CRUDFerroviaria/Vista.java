@@ -1,6 +1,7 @@
 package es.amr.CRUDFerroviaria;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Choice;
 import java.awt.Color;
@@ -153,8 +154,27 @@ public class Vista extends Frame implements MouseListener
 	Frame vConsultarTren = new Frame("Lista de Trenes");
 	TextArea txaTrenes = new TextArea(15, 45);
 	Button btnExcelTren = new Button(" Exportar EXCEL ");
+	Button btnCSVTren = new Button(" Exportar CSV ");
 	Panel pnlCTren = new Panel();
 //--------------Modificar Trenes--------------
+	// Seleccionar
+	Frame vSelecTren = new Frame("Modificar datos");
+	Choice choSelecTrenes = new Choice();
+	Button btnEditarTren = new Button("Editar datos");
+	Panel pnlSelecTren1 = new Panel();
+	Panel pnlSelecTren2 = new Panel();
+	// Editar
+	Frame vDatosTren = new Frame("Editando datos");
+	Label lblDatosClaseT = new Label("Clase de tren:");
+	Label lblDatosCargaT = new Label("Carga:");
+	Label lblDatosPrecioT = new Label("Precio del billete (€):");
+	Label lblDatosFechaT = new Label("Fecha del último mantenimiento:");
+	TextField txfDatosClaseT = new TextField(20);
+	TextField txfDatosPrecioT = new TextField();
+	TextField txfDatosFechaT = new TextField();
+	Choice choDatosCarga = new Choice();
+	Button btnModificarTren = new Button("Modificar Tren");
+	
 	
 //--------------Alta Ciudades--------------
 	Frame vAltaCiudad = new Frame("Registro de Ciudades");
@@ -192,6 +212,7 @@ public class Vista extends Frame implements MouseListener
 	Frame vConsultarCiudad = new Frame("Lista de Ciudades");
 	TextArea txaCiudad = new TextArea(15, 45);
 	Button btnExcelCiudad = new Button(" Exportar EXCEL ");
+	Button btnCSVCiudad = new Button(" Exportar CSV ");
 	Panel pnlCCiudad = new Panel();
 //--------------Modificar Ciudades--------------
 	
@@ -255,6 +276,7 @@ public class Vista extends Frame implements MouseListener
 	Frame vConsultarEstacion = new Frame("Lista de Estaciones");
 	TextArea txaEstacion = new TextArea(15, 45);
 	Button btnExcelEstacion = new Button(" Exportar EXCEL ");
+	Button btnCSVEstacion = new Button(" Exportar CSV ");
 	Panel pnlCEstacion = new Panel();
 //--------------Modificar Estaciones--------------
 	
@@ -310,6 +332,7 @@ public class Vista extends Frame implements MouseListener
 	Frame vConsultarParada = new Frame("Lista de Paradas");
 	TextArea txaParada = new TextArea(15, 45);
 	Button btnExcelParada = new Button(" Exportar EXCEL ");
+	Button btnCSVParada = new Button(" Exportar CSV ");
 	Panel pnlCParada = new Panel();
 //--------------Modificar Paradas--------------
 	
@@ -324,6 +347,9 @@ public class Vista extends Frame implements MouseListener
 	// DIÁLOGO Éxito Baja
 	Dialog dlgExitoBaja = new Dialog(vAltaTren, "Éxito", true);
 	Label lblExitoBaja = new Label("Baja correcta");
+	// DIÁLOGO Excel creado
+	Dialog dlgExcel = new Dialog(vAltaTren, "Éxito", true);
+	Label lblExcel = new Label("Archivo creado correctamente");
 	
 	Modelo modelo = new Modelo();
 	Font fntHe = new Font("Arial", Font.BOLD, 16);
@@ -337,6 +363,10 @@ public class Vista extends Frame implements MouseListener
 	Color clrAviso = new Color(255, 255, 191);
 	Color clrError = new Color(255, 150, 150);
 	Color clrExito = new Color(150, 255, 150);
+	Color clrExcel = new Color(209, 212, 255);
+	Color clrCSV = new Color(255, 202, 202);
+	Color clrFntExcel = new Color(0, 0, 169);
+	Color clrFntCSV = new Color(193, 0, 0);
 	Toolkit herramienta;
 	Image logo;
 	Image principal;
@@ -629,6 +659,9 @@ public class Vista extends Frame implements MouseListener
 		vBajaTren.setResizable(false);
 		vBajaTren.setLocationRelativeTo(null);
 		vBajaTren.setBackground(Color.lightGray);
+		btnBorrarTren.setFont(fntMe);
+		btnBorrarTren.setForeground(Color.darkGray);
+		choTrenes.setFont(fntLi);
 		Dimension dmChoTrenes = new Dimension(230,30);
 		choTrenes.setPreferredSize(dmChoTrenes);
 		pnlBajaTren1.add(choTrenes);
@@ -673,11 +706,77 @@ public class Vista extends Frame implements MouseListener
 		dlgFalloBajaT.add(lblFalloBajaT2);
 		dlgFalloBajaT.add(lblFalloBajaT3);
 //--------------VENTANA Consultar Trenes--------------
-
-		
-		
+		vConsultarTren.setLayout(new BorderLayout());
+		vConsultarTren.setSize(520, 310);
+		vConsultarTren.setResizable(true);
+		vConsultarTren.setLocationRelativeTo(null);
+		vConsultarTren.setBackground(Color.lightGray);
+		txaTrenes.setFont(fntLiB);
+		btnExcelTren.setFont(fntMe);
+		btnCSVTren.setFont(fntMe);
+		btnExcelTren.setForeground(clrFntExcel);
+		btnCSVTren.setForeground(clrFntCSV);
+		txaTrenes.setEditable(false);
+		txaTrenes.setBackground(new Color(225, 225, 225));
+		btnExcelTren.setBackground(clrExcel);
+		btnCSVTren.setBackground(clrCSV);
+		vConsultarTren.add(txaTrenes, BorderLayout.CENTER);
+		pnlCTren.add(btnExcelTren);
+		pnlCTren.add(btnCSVTren);
+		vConsultarTren.add(pnlCTren, BorderLayout.SOUTH);
 //--------------VENTANA Modificar Trenes--------------
-		
+		// Seleccionar
+		vSelecTren.setLayout(new GridLayout(2, 1));
+		vSelecTren.setSize(300, 180);
+		vSelecTren.setResizable(false);
+		vSelecTren.setLocationRelativeTo(null);
+		vSelecTren.setBackground(Color.lightGray);
+		btnEditarTren.setFont(fntMe);
+		btnEditarTren.setForeground(Color.darkGray);
+		choSelecTrenes.setFont(fntLi);
+		choSelecTrenes.setPreferredSize(dmChoTrenes);
+		pnlSelecTren1.add(choSelecTrenes);
+		vSelecTren.add(pnlSelecTren1);
+		pnlSelecTren2.add(btnEditarTren);
+		vSelecTren.add(pnlSelecTren2);
+		// Editar
+		vDatosTren.setLayout(null);
+		vDatosTren.setSize(390, 400);
+		vDatosTren.setResizable(false);
+		vDatosTren.setLocationRelativeTo(null);
+		vDatosTren.setBackground(Color.lightGray);
+		lblDatosClaseT.setBounds(40, 50, 95, 20);
+		lblDatosClaseT.setFont(fntLi2);
+		txfDatosClaseT.setBounds(150, 50, 150, 20);
+		txfDatosClaseT.setFont(fntLiB);
+		lblDatosCargaT.setBounds(40, 110, 50, 20);
+		lblDatosCargaT.setFont(fntLi2);
+		choDatosCarga.setBounds(105, 110, 115, 20);
+		for(String tipoCarga: cargas) 
+		{
+			choDatosCarga.add(tipoCarga);
+		}
+		choDatosCarga.setFont(fntLiB);
+		lblDatosPrecioT.setBounds(40, 170, 150, 20);
+		lblDatosPrecioT.setFont(fntLi2);
+		txfDatosPrecioT.setBounds(190, 170, 50, 20);
+		txfDatosPrecioT.setFont(fntLiB);
+		lblDatosFechaT.setBounds(40, 230, 220, 20);
+		lblDatosFechaT.setFont(fntLi2);
+		txfDatosFechaT.setBounds(265, 230, 80, 20);
+		txfDatosFechaT.setFont(fntLiB);
+		btnModificarTren.setBounds(135, 300, 120, 30);
+		btnModificarTren.setFont(fntMe);
+		btnModificarTren.setForeground(Color.darkGray);
+		vDatosTren.add(lblDatosClaseT);
+		vDatosTren.add(txfDatosClaseT);
+		vDatosTren.add(lblDatosCargaT);
+		vDatosTren.add(choDatosCarga);
+		vDatosTren.add(lblDatosPrecioT);
+		vDatosTren.add(txfDatosPrecioT);
+		vDatosTren.add(lblDatosFechaT);
+		vDatosTren.add(txfDatosFechaT);
+		vDatosTren.add(btnModificarTren);
 //--------------VENTANA Alta Ciudades--------------
 		vAltaCiudad.setLayout(new GridLayout(3,1));
 		vAltaCiudad.setSize(300, 180);
@@ -718,6 +817,9 @@ public class Vista extends Frame implements MouseListener
 		vBajaCiudad.setResizable(false);
 		vBajaCiudad.setLocationRelativeTo(null);
 		vBajaCiudad.setBackground(Color.lightGray);
+		btnBorrarCiudad.setFont(fntMe);
+		btnBorrarCiudad.setForeground(Color.darkGray);
+		choCiudades.setFont(fntLi);
 		Dimension dmChoCiudades = new Dimension(230,30);
 		choCiudades.setPreferredSize(dmChoCiudades);
 		pnlBajaCiudad1.add(choCiudades);
@@ -757,7 +859,24 @@ public class Vista extends Frame implements MouseListener
 		dlgFalloBajaC.add(lblFalloBajaC2);
 		dlgFalloBajaC.add(lblFalloBajaC3);
 //--------------VENTANA Consultar Ciudades--------------
-		
+		vConsultarCiudad.setLayout(new BorderLayout());
+		vConsultarCiudad.setSize(320, 310);
+		vConsultarCiudad.setResizable(true);
+		vConsultarCiudad.setLocationRelativeTo(null);
+		vConsultarCiudad.setBackground(Color.lightGray);
+		txaCiudad.setFont(fntLiB);
+		btnExcelCiudad.setFont(fntMe);
+		btnCSVCiudad.setFont(fntMe);
+		btnExcelCiudad.setForeground(clrFntExcel);
+		btnCSVCiudad.setForeground(clrFntCSV);
+		txaCiudad.setEditable(false);
+		txaCiudad.setBackground(new Color(225, 225, 225));
+		btnExcelCiudad.setBackground(clrExcel);
+		btnCSVCiudad.setBackground(clrCSV);
+		vConsultarCiudad.add(txaCiudad, BorderLayout.CENTER);
+		pnlCCiudad.add(btnExcelCiudad);
+		pnlCCiudad.add(btnCSVCiudad);
+		vConsultarCiudad.add(pnlCCiudad, BorderLayout.SOUTH);
 //--------------VENTANA Modificar Ciudades--------------
 		
 //--------------VENTANA Alta Estaciones--------------
@@ -897,7 +1016,24 @@ public class Vista extends Frame implements MouseListener
 		dlgFalloBajaE.add(lblFalloBajaE2);
 		dlgFalloBajaE.add(lblFalloBajaE3);
 //--------------VENTANA Consultar Estaciones--------------
-		
+		vConsultarEstacion.setLayout(new BorderLayout());
+		vConsultarEstacion.setSize(520, 310);
+		vConsultarEstacion.setResizable(true);
+		vConsultarEstacion.setLocationRelativeTo(null);
+		vConsultarEstacion.setBackground(Color.lightGray);
+		txaEstacion.setFont(fntLiB);
+		btnExcelEstacion.setFont(fntMe);
+		btnCSVEstacion.setFont(fntMe);
+		btnExcelEstacion.setForeground(clrFntExcel);
+		btnCSVEstacion.setForeground(clrFntCSV);
+		txaEstacion.setEditable(false);
+		txaEstacion.setBackground(new Color(225, 225, 225));
+		btnExcelEstacion.setBackground(clrExcel);
+		btnCSVEstacion.setBackground(clrCSV);
+		vConsultarEstacion.add(txaEstacion, BorderLayout.CENTER);
+		pnlCEstacion.add(btnExcelEstacion);
+		pnlCEstacion.add(btnCSVEstacion);
+		vConsultarEstacion.add(pnlCEstacion, BorderLayout.SOUTH);
 //--------------VENTANA Modificar Estaciones--------------
 		
 //--------------VENTANA Alta Paradas--------------
@@ -1009,9 +1145,25 @@ public class Vista extends Frame implements MouseListener
 		pnlBParada.add(btnOkBParada);
 		pnlBParada.add(btnCancelBParada);
 		dlgBParada.add(pnlBParada);
-		
 //--------------VENTANA Consultar Paradas--------------
-		
+		vConsultarParada.setLayout(new BorderLayout());
+		vConsultarParada.setSize(320, 310);
+		vConsultarParada.setResizable(true);
+		vConsultarParada.setLocationRelativeTo(null);
+		vConsultarParada.setBackground(Color.lightGray);
+		txaParada.setFont(fntLiB);
+		btnExcelParada.setFont(fntMe);
+		btnCSVParada.setFont(fntMe);
+		btnExcelParada.setForeground(clrFntExcel);
+		btnCSVParada.setForeground(clrFntCSV);
+		txaParada.setEditable(false);
+		txaParada.setBackground(new Color(225, 225, 225));
+		btnExcelParada.setBackground(clrExcel);
+		btnCSVParada.setBackground(clrCSV);
+		vConsultarParada.add(txaParada, BorderLayout.CENTER);
+		pnlCParada.add(btnExcelParada);
+		pnlCParada.add(btnCSVParada);
+		vConsultarParada.add(pnlCParada, BorderLayout.SOUTH);
 //--------------VENTANA Modificar Paradas--------------
 		
 //--------------Varios--------------
@@ -1042,6 +1194,16 @@ public class Vista extends Frame implements MouseListener
 		dlgExitoBaja.setBackground(clrExito);
 		dlgExitoBaja.setForeground(Color.darkGray);
 		dlgExitoBaja.setFont(fntHe);
+		// DIÁLOGO Excel/CSV creado
+		dlgExcel.setLayout(new FlowLayout());
+		dlgExcel.setSize(300, 100);
+		dlgExcel.setResizable(false);
+		lblExcel.setAlignment(Label.CENTER);
+		dlgExcel.add(lblExcel);
+		dlgExcel.setLocationRelativeTo(null);
+		dlgExcel.setBackground(clrExito);
+		dlgExcel.setForeground(Color.darkGray);
+		dlgExcel.setFont(fntHe);
 	}
 	
 	@Override
@@ -1052,7 +1214,6 @@ public class Vista extends Frame implements MouseListener
 		clickY = e.getY();
 		System.out.println("Clic en X: " + clickX + ", Y: " + clickY);
 	}
-
 	@Override public void mousePressed(MouseEvent e){}@Override public void mouseReleased(MouseEvent e) {}
 	@Override public void mouseEntered(MouseEvent e){}@Override public void mouseExited(MouseEvent e){}
 }
