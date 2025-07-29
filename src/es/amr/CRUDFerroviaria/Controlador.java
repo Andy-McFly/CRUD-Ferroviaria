@@ -116,14 +116,18 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		v.vAltaCiudad.addWindowListener(this);
 		v.vBajaCiudad.addWindowListener(this);
 		v.vConsultarCiudad.addWindowListener(this);
-		
+		v.vSelecCiudad.addWindowListener(this);
+		v.vDatosCiudad.addWindowListener(this);
 		v.vAltaEstacion.addWindowListener(this);
 		v.vBajaEstacion.addWindowListener(this);
 		v.vConsultarEstacion.addWindowListener(this);
-		
+		v.vSelecEstacion.addWindowListener(this);
+		v.vModificarEstacion.addWindowListener(this);
 		v.vAltaParada.addWindowListener(this);
 		v.vBajaParada.addWindowListener(this);
 		v.vConsultarParada.addWindowListener(this);
+		v.vSelecParada.addWindowListener(this);
+		v.vModificarParada.addWindowListener(this);
 		
 		v.dlgLogin.addWindowListener(this);
 		v.dlgPrincipal.addWindowListener(this);
@@ -132,13 +136,16 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		v.dlgBCiudad.addWindowListener(this);
 		v.dlgFalloAltaT.addWindowListener(this);
 		v.dlgFalloBajaT.addWindowListener(this);
+		v.dlgFalloModificarT.addWindowListener(this);
 		v.dlgFalloBajaC.addWindowListener(this);
 		v.dlgFalloBajaE.addWindowListener(this);
-		
 		v.dlgExitoAlta.addWindowListener(this);
 		v.dlgFalloAlta.addWindowListener(this);
 		v.dlgExitoBaja.addWindowListener(this);
 		v.dlgExcel.addWindowListener(this);
+		v.dlgFalloModificar.addWindowListener(this);
+		v.dlgExitoModificar.addWindowListener(this);
+		
 		v.miAltaTrenes.addActionListener(this);
 		v.miBajaTrenes.addActionListener(this);
 		v.miConsultaTrenes.addActionListener(this);
@@ -157,6 +164,7 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		v.miModificarParadas.addActionListener(this);
 		v.miManual.addActionListener(this);
 		v.miSesion.addActionListener(this);
+		
 		v.btnAceptarLogin.addActionListener(this);
 		v.btnLimpiarLogin.addActionListener(this);
 		v.btnSiPrincipal.addActionListener(this);
@@ -176,6 +184,7 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		v.btnExcelTren.addActionListener(this);
 		v.btnCSVTren.addActionListener(this);
 		v.btnEditarTren.addActionListener(this);
+		v.btnModificarTren.addActionListener(this);
 		
 		v.btnRegistroCiudad.addActionListener(this);
 		v.btnOkConfCiudad.addActionListener(this);
@@ -185,6 +194,8 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		v.btnCancelBCiudad.addActionListener(this);
 		v.btnExcelCiudad.addActionListener(this);
 		v.btnCSVCiudad.addActionListener(this);
+		v.btnEditarCiudad.addActionListener(this);
+		v.btnModificarCiudad.addActionListener(this);
 		
 		v.btnRegistroEstacion.addActionListener(this);
 		v.btnOkNombre.addActionListener(this);
@@ -197,6 +208,8 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		v.btnCancelBEstacion.addActionListener(this);
 		v.btnExcelEstacion.addActionListener(this);
 		v.btnCSVEstacion.addActionListener(this);
+		v.btnEditarEstacion.addActionListener(this);
+		v.btnModificarEstacion.addActionListener(this);
 		
 		v.btnRegistroParada.addActionListener(this);
 		v.btnOkNoTren.addActionListener(this);
@@ -208,6 +221,17 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		v.btnCancelBParada.addActionListener(this);
 		v.btnExcelParada.addActionListener(this);
 		v.btnCSVParada.addActionListener(this);
+		v.btnEditarParada.addActionListener(this);
+		v.btnModificarParada.addActionListener(this);
+		
+		v.btnAceptarModificar.addActionListener(this);
+		v.btnCancelarModificar.addActionListener(this);
+		v.btnAceptarModificar2.addActionListener(this);
+		v.btnCancelarModificar2.addActionListener(this);
+		v.btnAceptarModificar3.addActionListener(this);
+		v.btnCancelarModificar3.addActionListener(this);
+		v.btnAceptarModificar4.addActionListener(this);
+		v.btnCancelarModificar4.addActionListener(this);
 		
 		v.choCarga.addItemListener(this);
 		v.txfPrecioT.addKeyListener(kaNumeros);
@@ -227,12 +251,36 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 				usuario = vista.txfUsuario.getText();
 				connection = modelo.conectar();
 				int tipoUser = modelo.credenciales(connection, usuario, vista.txfClave.getText());
-				if (tipoUser!=-1)
+				if (tipoUser == 1)
 				{
 					modelo.historicoLog(usuario, "Acceso al Sistema");
 					vista.vLogin.dispose();
+					vista.vMPrincipal.setTitle("Menú Principal");
+					vista.mTrenes.remove(vista.miBajaTrenes);
+					vista.mTrenes.remove(vista.miModificarTrenes);
+					vista.mCiudades.remove(vista.miBajaCiudades);
+					vista.mCiudades.remove(vista.miModificarCiudades);
+					vista.mEstaciones.remove(vista.miBajaEstaciones);
+					vista.mEstaciones.remove(vista.miModificarEstaciones);
+					vista.mParadas.remove(vista.miBajaParadas);
+					vista.mParadas.remove(vista.miModificarParadas);
 					vista.vMPrincipal.setVisible(true);
 				} 
+				else if(tipoUser == 0) 
+				{
+					modelo.historicoLog(usuario, "Acceso al Sistema");
+					vista.vLogin.dispose();
+					vista.vMPrincipal.setTitle("Menú Principal (Administrador)");
+					vista.mTrenes.add(vista.miBajaTrenes);
+					vista.mTrenes.add(vista.miModificarTrenes);
+					vista.mCiudades.add(vista.miBajaCiudades);
+					vista.mCiudades.add(vista.miModificarCiudades);
+					vista.mEstaciones.add(vista.miBajaEstaciones);
+					vista.mEstaciones.add(vista.miModificarEstaciones);
+					vista.mParadas.add(vista.miBajaParadas);
+					vista.mParadas.add(vista.miModificarParadas);
+					vista.vMPrincipal.setVisible(true);
+				}
 				else
 				{
 					vista.dlgLogin.setVisible(true);
@@ -294,7 +342,13 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 			modelo.desconectar(connection);
 			vista.vConsultarCiudad.setVisible(true);
 		}
-			// Modificar Ciudades
+		else if(btn.getSource().equals(vista.miModificarCiudades)) 
+		{
+			connection = modelo.conectar();
+			modelo.rellenarChoiceCiudades(connection, vista.choSelecCiudades);
+			modelo.desconectar(connection);
+			vista.vSelecCiudad.setVisible(true);
+		}
 		// Estaciones 
 		else if(btn.getSource().equals(vista.miAltaEstaciones)) 
 		{
@@ -317,7 +371,13 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 			modelo.desconectar(connection);
 			vista.vConsultarEstacion.setVisible(true);
 		}
-			// Modificar Estaciones
+		else if(btn.getSource().equals(vista.miModificarEstaciones)) 
+		{
+			connection = modelo.conectar();
+			modelo.rellenarChoiceEstaciones(connection, vista.choSelecEstacion);
+			modelo.desconectar(connection);
+			vista.vSelecEstacion.setVisible(true);
+		}
 		// Paradas
 		else if(btn.getSource().equals(vista.miAltaParadas)) 
 		{
@@ -343,7 +403,13 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 			modelo.desconectar(connection);
 			vista.vConsultarParada.setVisible(true);
 		}
-			// Modificar Paradas
+		else if(btn.getSource().equals(vista.miModificarParadas)) 
+		{
+			connection = modelo.conectar();
+			modelo.rellenarChoiceParadas(connection, vista.choSelecParada);
+			modelo.desconectar(connection);
+			vista.vSelecParada.setVisible(true);
+		}
 		
 		else if(btn.getSource().equals(vista.miSesion)) 
 		{
@@ -385,6 +451,7 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 						if(!vista.txfPrecioT.getText().isEmpty() 
 							&& vista.txfPrecioT.getText().charAt(vista.txfPrecioT.getText().length() - 1) != '.') 
 						{
+							
 							vista.txfPrecioT.setBackground(Color.white);
 							clase = vista.txfClaseT.getText();
 							carga = vista.choCarga.getSelectedItem();
@@ -444,12 +511,18 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		else if(btn.getSource().equals(vista.btnOkFecha)) 
 		{
 			vista.dlgNoFecha.dispose();
-			vista.txfFechaT.setBackground(vista.clrError);
-			vista.txfFechaT.requestFocus();
 		}
 		else if(btn.getSource().equals(vista.btnOkConfTren)) 
 		{
-			String fechaSql = modelo.obtenerFechaMysql(fecha);
+			String fechaSql = "";
+			try 
+			{
+				fechaSql = modelo.obtenerFechaMysql(fecha);
+			}
+			catch(ArrayIndexOutOfBoundsException a)
+			{
+				vista.dlgNoFecha.setVisible(true);
+			}
 			connection = modelo.conectar();
 			if(modelo.altaTrenes(connection, clase, carga, precio, fechaSql, usuario)) 
 			{
@@ -520,7 +593,7 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		{
 			vista.dlgBTren.dispose();
 		}
-		// Consultar trenes
+		// Consultar Trenes
 		else if(btn.getSource().equals(vista.btnExcelTren)) 
 		{
 			connection = modelo.conectar();
@@ -539,10 +612,9 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 			}
 			modelo.desconectar(connection);
 		}
-		// Modificar trenes
+		// Modificar Trenes
 		else if(btn.getSource().equals(vista.btnEditarTren)) 
 		{
-			// DATOS
 			if (vista.choSelecTrenes.getSelectedIndex()!=0) 
 			{
 				int idTren = Integer.parseInt(vista.choSelecTrenes.getSelectedItem().split("--")[0]);
@@ -564,8 +636,65 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 				}
 				String fechaEuropea = modelo.obtenerFechaEuropea(datos[3]);
 				vista.txfDatosFechaT.setText(fechaEuropea);
+				vista.choDatosCarga.setEnabled(false);
 				vista.vDatosTren.setVisible(true);
+				vista.vSelecTren.dispose();
 			}
+		}
+		else if(btn.getSource().equals(vista.btnModificarTren)) 
+		{			
+			if(!vista.txfDatosClaseT.getText().isEmpty() && !vista.txfDatosFechaT.getText().isEmpty()) 
+			{
+				try 
+				{
+					fecha = modelo.obtenerFechaMysql(vista.txfDatosFechaT.getText());
+					if (vista.choDatosCarga.getSelectedIndex() == 1 && !vista.txfDatosPrecioT.getText().isEmpty())
+					{
+						vista.dlgConfModificar.setVisible(true);
+					} 
+					else if (vista.choDatosCarga.getSelectedIndex() == 2 && vista.txfDatosPrecioT.getText().isEmpty())
+					{
+						vista.txfDatosPrecioT.setText("null");
+						vista.dlgConfModificar.setVisible(true);
+					} 
+				}
+				catch(ArrayIndexOutOfBoundsException a) 
+				{
+					vista.dlgNoFecha.setVisible(true);
+				}
+				
+			}
+			else 
+			{
+				vista.dlgFalloModificar.setVisible(true);
+			}
+		}
+		else if(btn.getSource().equals(vista.btnAceptarModificar)) 
+		{
+			int idTren = Integer.parseInt(vista.choSelecTrenes.getSelectedItem().split("--")[0]);
+			clase = vista.txfDatosClaseT.getText();
+			carga = vista.choDatosCarga.getSelectedItem();
+			precio = vista.txfDatosPrecioT.getText();
+			connection = modelo.conectar();
+			if(modelo.modificarTrenes(connection, idTren, clase, carga, precio, fecha, usuario)) 
+			{
+				vista.dlgConfModificar.dispose();
+				vista.dlgExitoModificar.setVisible(true);
+				vista.vDatosTren.dispose();
+				connection = modelo.conectar();
+				modelo.rellenarChoiceTrenes(connection, vista.choSelecTrenes);
+				vista.vSelecTren.setVisible(true);
+			}
+			else 
+			{
+				vista.dlgFalloModificarT.setVisible(true);
+			}
+			modelo.desconectar(connection);
+		}
+		else if(btn.getSource().equals(vista.btnCancelarModificar)) 
+		{
+			vista.txfDatosPrecioT.setText(null);
+			vista.dlgConfModificar.dispose();
 		}
 		
 //-------------------CRUD Ciudades-------------------
@@ -651,6 +780,49 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 			modelo.desconectar(connection);
 		}
 		// Modificar Ciudad
+		else if(btn.getSource().equals(vista.btnEditarCiudad)) 
+		{
+			if (vista.choSelecCiudades.getSelectedIndex()!=0) 
+			{
+				int idCiudad = Integer.parseInt(vista.choSelecCiudades.getSelectedItem().split("--")[0]);
+				connection = modelo.conectar();
+				String datos = modelo.datosBajaCiudades(idCiudad);
+				modelo.desconectar(connection);
+				vista.txfDatosNombreC.setText(datos);
+				vista.vDatosCiudad.setVisible(true);
+				vista.vSelecCiudad.dispose();
+			}
+		}
+		else if(btn.getSource().equals(vista.btnModificarCiudad)) 
+		{
+			if(!vista.txfDatosNombreC.getText().isEmpty()) 
+			{
+				vista.dlgConfModificar2.setVisible(true);
+			}
+			else 
+			{
+				vista.dlgFalloModificar.setVisible(true);
+			}
+		}
+		else if(btn.getSource().equals(vista.btnAceptarModificar2)) 
+		{
+			int idCiudad = Integer.parseInt(vista.choSelecCiudades.getSelectedItem().split("--")[0]);
+			connection = modelo.conectar();
+			if (modelo.modificarCiudades(connection, idCiudad, vista.txfDatosNombreC.getText(), usuario))
+			{
+				vista.dlgConfModificar2.dispose();
+				vista.dlgExitoModificar.setVisible(true);
+				vista.vDatosCiudad.dispose();
+				connection = modelo.conectar();
+				modelo.rellenarChoiceCiudades(connection, vista.choSelecCiudades);
+				vista.vSelecCiudad.setVisible(true);
+			}
+			modelo.desconectar(connection);
+		}
+		else if(btn.getSource().equals(vista.btnCancelarModificar2)) 
+		{
+			vista.dlgConfModificar2.dispose();
+		}
 //-------------------CRUD Estaciones-------------------
 		// Alta Estación
 		else if(btn.getSource().equals(vista.btnRegistroEstacion)) 
@@ -782,7 +954,58 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 			modelo.desconectar(connection);
 		}
 		// Modificar Estación
-		
+		else if(btn.getSource().equals(vista.btnEditarEstacion)) 
+		{
+			if (vista.choSelecEstacion.getSelectedIndex()!=0) 
+			{
+				int idEstacion = Integer.parseInt(vista.choSelecEstacion.getSelectedItem().split("--")[0]);
+				connection = modelo.conectar();
+				String[] datos = modelo.datosBajaEstaciones(idEstacion);
+				connection = modelo.conectar();
+				modelo.rellenarChoiceCiudades(connection, vista.choModificarCiudades);
+				modelo.desconectar(connection);
+				vista.txfModificarEstacionNombre.setText(datos[0]);
+				vista.txfModificarEstacionDireccion.setText(datos[1]);
+				vista.choModificarCiudades.select(datos[3] + "--" + datos[2]);
+				vista.vModificarEstacion.setVisible(true);
+				vista.vSelecEstacion.dispose();
+			}
+		}
+		else if(btn.getSource().equals(vista.btnModificarEstacion)) 
+		{
+			if(!vista.txfModificarEstacionNombre.getText().isEmpty() 
+					&& !vista.txfModificarEstacionDireccion.getText().isEmpty() 
+					&& vista.choModificarCiudades.getSelectedIndex() != 0) 
+			{
+				vista.dlgConfModificar3.setVisible(true);
+			}
+			else 
+			{
+				vista.dlgFalloModificar.setVisible(true);
+			}
+		}
+		else if(btn.getSource().equals(vista.btnAceptarModificar3)) 
+		{
+			int idEstacion = Integer.parseInt(vista.choSelecEstacion.getSelectedItem().split("--")[0]);
+			int idCiudadFK = Integer.parseInt(vista.choModificarCiudades.getSelectedItem().split("--")[0]);
+			nombre = vista.txfModificarEstacionNombre.getText();
+			direccion = vista.txfModificarEstacionDireccion.getText();
+			connection = modelo.conectar();
+			if (modelo.modificarEstaciones(connection, idEstacion, nombre, direccion, idCiudadFK, usuario))
+			{
+				vista.dlgConfModificar3.dispose();
+				vista.dlgExitoModificar.setVisible(true);
+				vista.vModificarEstacion.dispose();
+				connection = modelo.conectar();
+				modelo.rellenarChoiceEstaciones(connection, vista.choSelecEstacion);
+				vista.vSelecEstacion.setVisible(true);
+			}
+			modelo.desconectar(connection);
+		}
+		else if(btn.getSource().equals(vista.btnCancelarModificar3)) 
+		{
+			vista.dlgConfModificar3.dispose();
+		}
 //-------------------CRUD Paradas-------------------
 		// Alta Parada
 		else if(btn.getSource().equals(vista.btnRegistroParada)) 
@@ -892,7 +1115,62 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 			}
 			modelo.desconectar(connection);
 		}
-		// Modificar Paradas
+		// Modificar Parada
+		else if(btn.getSource().equals(vista.btnEditarParada)) 
+		{
+			if (vista.choSelecParada.getSelectedIndex()!=0) 
+			{
+				int idParada = Integer.parseInt(vista.choSelecParada.getSelectedItem().split("--")[0]);
+				connection = modelo.conectar();
+				String[] datos = modelo.datosBajaParadas(idParada);
+				connection = modelo.conectar();
+				modelo.rellenarChoiceTrenes(connection, vista.choModificarParadaTren);
+				connection = modelo.conectar();
+				modelo.rellenarChoiceEstaciones(connection, vista.choModificarParadaEstacion);
+				modelo.desconectar(connection);
+				vista.choModificarParadaTren.select(datos[4] + "--" + datos[0]+ "--" + datos[1]);
+				vista.choModificarParadaEstacion.select(datos[5] + "--" + datos[2]+ "--" + datos[3]);
+				vista.vModificarParada.setVisible(true);
+				vista.vSelecParada.dispose();
+			}
+		}
+		else if(btn.getSource().equals(vista.btnModificarParada)) 
+		{
+			if(vista.choModificarParadaTren.getSelectedIndex() != 0 
+					&& vista.choModificarParadaEstacion.getSelectedIndex() != 0) 
+			{
+				vista.dlgConfModificar4.setVisible(true);
+			}
+			else 
+			{
+				vista.dlgFalloModificar.setVisible(true);
+			}
+		}
+		else if(btn.getSource().equals(vista.btnAceptarModificar4)) 
+		{
+			int idParada = Integer.parseInt(vista.choSelecParada.getSelectedItem().split("--")[0]);
+			int idTrenFK = Integer.parseInt(vista.choModificarParadaTren.getSelectedItem().split("--")[0]);
+			int idEstacionFK = Integer.parseInt(vista.choModificarParadaEstacion.getSelectedItem().split("--")[0]);
+			connection = modelo.conectar();
+			if (modelo.modificarParadas(connection, idParada, idTrenFK, idEstacionFK, usuario))
+			{
+				vista.dlgConfModificar4.dispose();
+				vista.dlgExitoModificar.setVisible(true);
+				vista.vModificarParada.dispose();
+				connection = modelo.conectar();
+				modelo.rellenarChoiceParadas(connection, vista.choSelecParada);
+				connection = modelo.conectar();
+				modelo.rellenarChoiceTrenes(connection, vista.choModificarParadaTren);
+				connection = modelo.conectar();
+				modelo.rellenarChoiceEstaciones(connection, vista.choModificarParadaEstacion);
+				vista.vSelecParada.setVisible(true);
+			}
+			modelo.desconectar(connection);
+		}
+		else if(btn.getSource().equals(vista.btnCancelarModificar4)) 
+		{
+			vista.dlgConfModificar4.dispose();
+		}
 	}
 	
 	@Override
@@ -987,6 +1265,14 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		else if (eCerrar.getSource().equals(vista.vDatosTren))
 		{
 			vista.vDatosTren.dispose();
+			connection = modelo.conectar();
+			modelo.rellenarChoiceTrenes(connection, vista.choSelecTrenes);
+			modelo.desconectar(connection);
+			vista.vSelecTren.setVisible(true);
+		}
+		else if (eCerrar.getSource().equals(vista.dlgFalloModificarT))
+		{
+			vista.dlgFalloModificarT.dispose();
 		}
 		// Alta Ciudades
 		else if (eCerrar.getSource().equals(vista.vAltaCiudad))
@@ -1009,7 +1295,19 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 			vista.txaCiudad.setText(null);
 			vista.vConsultarCiudad.dispose();
 		}
-		
+		// Modificar Ciudades
+		else if (eCerrar.getSource().equals(vista.vSelecCiudad))
+		{
+			vista.vSelecCiudad.dispose();
+		}
+		else if (eCerrar.getSource().equals(vista.vDatosCiudad))
+		{
+			vista.vDatosCiudad.dispose();
+			connection = modelo.conectar();
+			modelo.rellenarChoiceCiudades(connection, vista.choSelecCiudades);
+			modelo.desconectar(connection);
+			vista.vSelecCiudad.setVisible(true);
+		}
 		// Alta Estaciones
 		else if (eCerrar.getSource().equals(vista.vAltaEstacion))
 		{
@@ -1034,6 +1332,19 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 			vista.txaEstacion.setText(null);
 			vista.vConsultarEstacion.dispose();
 		}
+		// Modificar Estaciones
+		else if (eCerrar.getSource().equals(vista.vSelecEstacion))
+		{
+			vista.vSelecEstacion.dispose();
+		}
+		else if (eCerrar.getSource().equals(vista.vModificarEstacion))
+		{
+			vista.vModificarEstacion.dispose();
+			connection = modelo.conectar();
+			modelo.rellenarChoiceEstaciones(connection, vista.choSelecEstacion);
+			modelo.desconectar(connection);
+			vista.vSelecEstacion.setVisible(true);
+		}
 		// Alta Paradas
 		else if(eCerrar.getSource().equals(vista.vAltaParada)) 
 		{
@@ -1050,7 +1361,19 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 			vista.txaParada.setText(null);
 			vista.vConsultarParada.dispose();
 		}
-		
+		// Modificar Paradas
+		else if (eCerrar.getSource().equals(vista.vSelecParada))
+		{
+			vista.vSelecParada.dispose();
+		}
+		else if (eCerrar.getSource().equals(vista.vModificarParada))
+		{
+			vista.vModificarParada.dispose();
+			connection = modelo.conectar();
+			modelo.rellenarChoiceParadas(connection, vista.choSelecParada);
+			modelo.desconectar(connection);
+			vista.vSelecParada.setVisible(true);
+		}
 		// Generales
 		else if (eCerrar.getSource().equals(vista.dlgExitoAlta))
 		{
@@ -1067,6 +1390,14 @@ public class Controlador implements WindowListener, ActionListener, FocusListene
 		else if (eCerrar.getSource().equals(vista.dlgExcel))
 		{
 			vista.dlgExcel.dispose();
+		}
+		else if (eCerrar.getSource().equals(vista.dlgFalloModificar))
+		{
+			vista.dlgFalloModificar.dispose();
+		}
+		else if (eCerrar.getSource().equals(vista.dlgExitoModificar))
+		{
+			vista.dlgExitoModificar.dispose();
 		}
 	}
 	

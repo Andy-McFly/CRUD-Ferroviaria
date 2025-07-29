@@ -129,7 +129,7 @@ public class Modelo
 		StringBuilder contenidoTextarea = new StringBuilder();
 		try
 		{
-			sentencia = "SELECT * FROM trenes";
+			sentencia = "SELECT * FROM trenes ORDER BY claseTren";
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(sentencia);
 			historicoLog(nombreUser, "Consulta lista de Trenes: "+sentencia);
@@ -140,12 +140,16 @@ public class Modelo
 			while (resultset.next())
 			{
 				String fechaEur = obtenerFechaEuropea(resultset.getString("fechaMantenimientoTren"));
+				String precio = resultset.getString("precioBilleteTren");
+				if(precio != null) 
+				{
+					precio += "€";
+				}
 				contenidoTextarea.append(String.format("%-5s \t %-15s \t %-10s \t %-15s \t %-10s \n",
 						resultset.getString("idTren"), 
 						resultset.getString("claseTren"), 
 						resultset.getString("cargaTren"), 
-						resultset.getString("precioBilleteTren") +"€", 
-						fechaEur));
+						precio, fechaEur));
 			}
 		} 
 		catch (SQLException e)
@@ -153,6 +157,26 @@ public class Modelo
 			System.out.println("Error en la sentencia SQL");
 		}
 		return contenidoTextarea.toString();
+	}
+	
+	public boolean modificarTrenes(Connection connection, int idTren, String claseTren, String cargaTren, String precioTren, String fechaTren, String nombreUser)
+	{
+		boolean resultado = false;
+		sentencia = "UPDATE trenes SET claseTren = '" + claseTren + "', cargaTren = '" + cargaTren + "', precioBilleteTren = " 
+				+ precioTren + ", fechaMantenimientoTren = '" + fechaTren + "' WHERE idTren = " + idTren + ";";
+		try
+		{
+			statement = connection.createStatement();
+			statement.executeUpdate(sentencia);
+			resultado = true;
+			historicoLog(nombreUser, "Modificar Tren: "+sentencia);
+		} 
+		catch (SQLException sqle)
+		{
+			System.out.println(sentencia);
+			resultado = false;
+		}
+		return resultado;
 	}
 	
 //-------------------CRUD Ciudades-------------------
@@ -197,7 +221,7 @@ public class Modelo
 		StringBuilder contenidoTextarea = new StringBuilder();
 		try
 		{
-			sentencia = "SELECT * FROM ciudades";
+			sentencia = "SELECT * FROM ciudades ORDER BY nombreCiudad";
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(sentencia);
 			historicoLog(nombreUser, "Consulta lista de Ciudades: "+sentencia);
@@ -215,6 +239,23 @@ public class Modelo
 			System.out.println("Error en la sentencia SQL");
 		}
 		return contenidoTextarea.toString();
+	}
+	
+	public boolean modificarCiudades(Connection connection, int idCiudad, String nombreCiudad, String nombreUser)
+	{
+		boolean resultado = false;
+		sentencia = "UPDATE ciudades SET nombreCiudad = '" + nombreCiudad + "' WHERE idCiudad = " + idCiudad + ";";
+		try
+		{
+			statement = connection.createStatement();
+			statement.executeUpdate(sentencia);
+			resultado = true;
+			historicoLog(nombreUser, "Modificar Ciudad: "+sentencia);
+		} catch (SQLException sqle)
+		{
+			resultado = false;
+		}
+		return resultado;
 	}
 	
 //-------------------CRUD Estaciones-------------------
@@ -260,7 +301,7 @@ public class Modelo
 		try
 		{
 			sentencia = "SELECT idEstacion, nombreEstacion, direccionEstacion, nombreCiudad FROM estaciones "
-					+ "JOIN ciudades ON ciudades.idCiudad = estaciones.idCiudadFK";
+					+ "JOIN ciudades ON ciudades.idCiudad = estaciones.idCiudadFK ORDER BY nombreEstacion";
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(sentencia);
 			historicoLog(nombreUser, "Consulta lista de Estaciones: "+sentencia);
@@ -282,6 +323,27 @@ public class Modelo
 			System.out.println("Error en la sentencia SQL");
 		}
 		return contenidoTextarea.toString();
+	}
+	
+	public boolean modificarEstaciones(Connection connection, int idEstacion, String nombreEstacion,
+			String direccionEstacion, int idCiudadFK, String nombreUser)
+	{
+		boolean resultado = false;
+		sentencia = "UPDATE estaciones SET nombreEstacion = '" + nombreEstacion + "', direccionEstacion = '"
+				+ direccionEstacion + "', idCiudadFK = " + idCiudadFK + " WHERE idEstacion = " + idEstacion + ";";
+		try
+		{
+			statement = connection.createStatement();
+			statement.executeUpdate(sentencia);
+			resultado = true;
+			historicoLog(nombreUser, "Modificar Estación: "+sentencia);
+		} 
+		catch (SQLException sqle)
+		{
+			System.out.println(sentencia);
+			resultado = false;
+		}
+		return resultado;
 	}
 	
 //-------------------CRUD Paradas-------------------
@@ -332,12 +394,13 @@ public class Modelo
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(sentencia);
 			historicoLog(nombreUser, "Consulta lista de Paradas: "+sentencia);
-			contenidoTextarea.append(String.format("%-5s \t %-20s \t %-20s \n", 
+			contenidoTextarea.append(String.format("%-5s \t %-25s \t %-20s \n", 
 					"ID", "Tren", "Estación"));
-			contenidoTextarea.append("----------------------------------------------------------------------\n");
+			contenidoTextarea.append("-------------------------------------------------------------"
+					+ "-------------------------\n");
 			while (resultset.next())
 			{
-				contenidoTextarea.append(String.format("%-5s \t %-20s \t %-20s \n",
+				contenidoTextarea.append(String.format("%-5s \t %-25s \t %-20s \n",
 						resultset.getString("idParada"), 
 						resultset.getString("claseTren"), 
 						resultset.getString("nombreEstacion")));
@@ -350,13 +413,31 @@ public class Modelo
 		return contenidoTextarea.toString();
 	}
 	
+	public boolean modificarParadas(Connection connection, int idParada, int idTrenFK, int idEstacionFK, String nombreUser)
+	{
+		boolean resultado = false;
+		sentencia = "UPDATE parar SET idTrenFK = " + idTrenFK + ", idEstacionFK = " + idEstacionFK + " WHERE idParada = " + idParada + ";";
+		historicoLog(nombreUser, "Modificar Parada: "+sentencia);
+		try
+		{
+			statement = connection.createStatement();
+			statement.executeUpdate(sentencia);
+			resultado = true;
+		} 
+		catch (SQLException sqle)
+		{
+			resultado = false;
+		}
+		return resultado;
+	}
+	
 //-------------------Herramientas Varias-------------------
 	public boolean rellenarChoiceTrenes(Connection connection, Choice choTrenes)
 	{
 		boolean resultado = false;
 		choTrenes.removeAll();
 		choTrenes.add("Seleccionar un tren...");
-		sentencia = "SELECT * FROM trenes";
+		sentencia = "SELECT * FROM trenes ORDER BY claseTren";
 		try
 		{
 			statement = connection.createStatement();
@@ -382,7 +463,7 @@ public class Modelo
 		boolean resultado = false;
 		choCiudades.removeAll();
 		choCiudades.add("Seleccionar una ciudad...");
-		sentencia = "SELECT * FROM ciudades";
+		sentencia = "SELECT * FROM ciudades ORDER BY nombreCiudad";
 		try
 		{
 			statement = connection.createStatement();
@@ -409,7 +490,7 @@ public class Modelo
 		choEstaciones.removeAll();
 		choEstaciones.add("Seleccionar una estación...");
 		sentencia = "SELECT idEstacion, nombreEstacion, nombreCiudad FROM estaciones "
-				+ "JOIN ciudades ON ciudades.idCiudad = estaciones.idCiudadFK";
+				+ "JOIN ciudades ON ciudades.idCiudad = estaciones.idCiudadFK ORDER BY nombreEstacion";
 		try
 		{
 			statement = connection.createStatement();
@@ -499,8 +580,8 @@ public class Modelo
 	
 	public String[] datosBajaEstaciones(int id) 
 	{
-		String[] datos = new String[3];
-		sentencia = "SELECT nombreEstacion, direccionEstacion, nombreCiudad FROM estaciones "
+		String[] datos = new String[4];
+		sentencia = "SELECT * FROM estaciones "
 				+ "JOIN ciudades ON ciudades.idCiudad = estaciones.idCiudadFK WHERE idEstacion = " + id + ";";
 		try 
 		{
@@ -511,6 +592,7 @@ public class Modelo
 				datos[0] = resultset.getString("nombreEstacion");
 				datos[1] = resultset.getString("direccionEstacion");
 				datos[2] = resultset.getString("nombreCiudad");
+				datos[3] = resultset.getString("idCiudad");
 			}
 		}
 		catch(SQLException sqle) {}
@@ -520,8 +602,8 @@ public class Modelo
 	
 	public String[] datosBajaParadas(int id) 
 	{
-		String[] datos = new String[4];
-		sentencia = "SELECT claseTren, cargaTren, nombreEstacion, nombreCiudad FROM parar "
+		String[] datos = new String[6];
+		sentencia = "SELECT claseTren, cargaTren, nombreEstacion, nombreCiudad, idTren, idEstacion FROM parar "
 				+ "JOIN trenes ON trenes.idTren = parar.idTrenFK "
 				+ "JOIN estaciones ON estaciones.idEstacion = parar.idEstacionFK "
 				+ "JOIN ciudades ON ciudades.idCiudad = estaciones.idCiudadFK WHERE idParada = " + id + ";";
@@ -535,6 +617,8 @@ public class Modelo
 				datos[1] = resultset.getString("cargaTren");
 				datos[2] = resultset.getString("nombreEstacion");
 				datos[3] = resultset.getString("nombreCiudad");
+				datos[4] = resultset.getString("idTren");
+				datos[5] = resultset.getString("idEstacion");
 			}
 		}
 		catch(SQLException sqle) {}
@@ -563,7 +647,7 @@ public class Modelo
 				numeroFilas++;
 			}
 			String[][] document = new String[numeroFilas][5];
-			sentencia = "SELECT * FROM trenes";
+			sentencia = "SELECT * FROM trenes ORDER BY claseTren";
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(sentencia);
 			int fila = 0;
@@ -652,7 +736,7 @@ public class Modelo
 				numeroFilas++;
 			}
 			String[][] document = new String[numeroFilas][2];
-			sentencia = "SELECT * FROM ciudades";
+			sentencia = "SELECT * FROM ciudades ORDER BY nombreCiudad";
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(sentencia);
 			int fila = 0;
@@ -739,7 +823,7 @@ public class Modelo
 			}
 			String[][] document = new String[numeroFilas][4];
 			sentencia = "SELECT idEstacion, nombreEstacion, direccionEstacion, nombreCiudad FROM estaciones "
-					+ "JOIN ciudades ON ciudades.idCiudad = estaciones.idCiudadFK";
+					+ "JOIN ciudades ON ciudades.idCiudad = estaciones.idCiudadFK ORDER BY nombreEstacion";
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(sentencia);
 			int fila = 0;

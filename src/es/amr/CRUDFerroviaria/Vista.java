@@ -22,11 +22,9 @@ import java.awt.Panel;
 import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 
-public class Vista extends Frame implements MouseListener
+public class Vista extends Frame
 {
 	private static final long serialVersionUID = 1L;
 	String confClase = "    Clase: ";
@@ -112,7 +110,7 @@ public class Vista extends Frame implements MouseListener
 	Panel pnlNoPrecio = new Panel();
 	// DIÁLOGO 4
 	Dialog dlgNoFecha = new Dialog(vAltaTren, "Aviso", true);
-	Label lblNoFecha = new Label("Escriba la fecha de la última revisión");
+	Label lblNoFecha = new Label("Formato de fecha incorrecto");
 	Button btnOkFecha = new Button(" Aceptar ");
 	Panel pnlNoFecha = new Panel();
 	// DIÁLOGO Confirmar Alta
@@ -157,13 +155,13 @@ public class Vista extends Frame implements MouseListener
 	Button btnCSVTren = new Button(" Exportar CSV ");
 	Panel pnlCTren = new Panel();
 //--------------Modificar Trenes--------------
-	// Seleccionar
+	// VENTANA Seleccionar
 	Frame vSelecTren = new Frame("Modificar datos");
 	Choice choSelecTrenes = new Choice();
-	Button btnEditarTren = new Button("Editar datos");
+	Button btnEditarTren = new Button(" Editar datos ");
 	Panel pnlSelecTren1 = new Panel();
 	Panel pnlSelecTren2 = new Panel();
-	// Editar
+	// VENTANA Editar
 	Frame vDatosTren = new Frame("Editando datos");
 	Label lblDatosClaseT = new Label("Clase de tren:");
 	Label lblDatosCargaT = new Label("Carga:");
@@ -173,8 +171,16 @@ public class Vista extends Frame implements MouseListener
 	TextField txfDatosPrecioT = new TextField();
 	TextField txfDatosFechaT = new TextField();
 	Choice choDatosCarga = new Choice();
-	Button btnModificarTren = new Button("Modificar Tren");
-	
+	Button btnModificarTren = new Button(" Modificar Tren ");
+	// DIÁLOGO Confirmar Modificar
+	Dialog dlgConfModificar = new Dialog(vDatosTren, "Aviso", true);
+	Label lblConfModificar = new Label("¿Modificar datos?");
+	Button btnAceptarModificar = new Button(" Aceptar ");
+	Button btnCancelarModificar = new Button(" Cancelar ");
+	Panel pnlConfModificar = new Panel();
+	// DIÁLOGO Fallo Modificar
+	Dialog dlgFalloModificarT = new Dialog(vDatosTren, "Error", true);
+	Label lblFalloModificarT = new Label("Formato incorrecto en el precio");
 	
 //--------------Alta Ciudades--------------
 	Frame vAltaCiudad = new Frame("Registro de Ciudades");
@@ -215,7 +221,25 @@ public class Vista extends Frame implements MouseListener
 	Button btnCSVCiudad = new Button(" Exportar CSV ");
 	Panel pnlCCiudad = new Panel();
 //--------------Modificar Ciudades--------------
-	
+	// VENTANA Seleccionar
+	Frame vSelecCiudad = new Frame("Modificar datos");
+	Choice choSelecCiudades = new Choice();
+	Button btnEditarCiudad = new Button(" Editar datos ");
+	Panel pnlSelecCiudad1 = new Panel();
+	Panel pnlSelecCiudad2 = new Panel();
+	// VENTANA Editar
+	Frame vDatosCiudad = new Frame("Editando datos");
+	Label lblDatosNombreC = new Label("Nombre de la ciudad:");
+	TextField txfDatosNombreC = new TextField(20);
+	Button btnModificarCiudad = new Button(" Modificar Ciudad ");
+	Panel pnlModificarCiudad = new Panel();
+	Panel pnlModificarCiudad2 = new Panel();
+	// DIÁLOGO Confirmar Modificar
+	Dialog dlgConfModificar2 = new Dialog(vDatosTren, "Aviso", true);
+	Label lblConfModificar2 = new Label("¿Modificar datos?");
+	Button btnAceptarModificar2 = new Button(" Aceptar ");
+	Button btnCancelarModificar2 = new Button(" Cancelar ");
+	Panel pnlConfModificar2 = new Panel();
 //--------------Alta Estaciones--------------
 	Frame vAltaEstacion = new Frame("Registro de Estaciones");
 	Label lblEstacionNombre = new Label("Nombre:");
@@ -279,7 +303,30 @@ public class Vista extends Frame implements MouseListener
 	Button btnCSVEstacion = new Button(" Exportar CSV ");
 	Panel pnlCEstacion = new Panel();
 //--------------Modificar Estaciones--------------
-	
+	// VENTANA Seleccionar
+	Frame vSelecEstacion = new Frame("Modificar datos");
+	Choice choSelecEstacion = new Choice();
+	Button btnEditarEstacion = new Button(" Editar datos ");
+	Panel pnlSelecEstacion1 = new Panel();
+	Panel pnlSelecEstacion2 = new Panel();
+	// VENTANA Editar
+	Frame vModificarEstacion = new Frame("Editando datos");
+	Label lblModificarEstacionNombre = new Label("Nombre:");
+	Label lblModificarEstacionDireccion = new Label("Dirección:");
+	TextField txfModificarEstacionNombre = new TextField(19);
+	TextField txfModificarEstacionDireccion = new TextField(20);
+	Choice choModificarCiudades = new Choice();
+	Button btnModificarEstacion = new Button(" Modificar Estación ");
+	Panel pnlModificarEstacion = new Panel();
+	Panel pnlModificarEstacion2 = new Panel();
+	Panel pnlModificarEstacion3 = new Panel();
+	Panel pnlModificarEstacion4 = new Panel();
+	// DIÁLOGO Confirmar Modificar
+	Dialog dlgConfModificar3 = new Dialog(vDatosTren, "Aviso", true);
+	Label lblConfModificar3 = new Label("¿Modificar datos?");
+	Button btnAceptarModificar3 = new Button(" Aceptar ");
+	Button btnCancelarModificar3 = new Button(" Cancelar ");
+	Panel pnlConfModificar3 = new Panel();
 //--------------Alta Paradas--------------
 	Frame vAltaParada = new Frame("Registro de estacionamientos");
 	Choice choParadaTren = new Choice();
@@ -335,8 +382,26 @@ public class Vista extends Frame implements MouseListener
 	Button btnCSVParada = new Button(" Exportar CSV ");
 	Panel pnlCParada = new Panel();
 //--------------Modificar Paradas--------------
-	
-	
+	// VENTANA Seleccionar
+	Frame vSelecParada = new Frame("Modificar datos");
+	Choice choSelecParada = new Choice();
+	Button btnEditarParada = new Button(" Editar datos ");
+	Panel pnlSelecParada1 = new Panel();
+	Panel pnlSelecParada2 = new Panel();
+	// VENTANA Editar
+	Frame vModificarParada = new Frame("Editando datos");
+	Choice choModificarParadaTren = new Choice();
+	Choice choModificarParadaEstacion = new Choice();
+	Button btnModificarParada = new Button(" Modificar Parada ");
+	Panel pnlModificarParada = new Panel();
+	Panel pnlModificarParada2 = new Panel();
+	Panel pnlModificarParada3 = new Panel();
+	// DIÁLOGO Confirmar Modificar
+	Dialog dlgConfModificar4 = new Dialog(vDatosTren, "Aviso", true);
+	Label lblConfModificar4 = new Label("¿Modificar datos?");
+	Button btnAceptarModificar4 = new Button(" Aceptar ");
+	Button btnCancelarModificar4 = new Button(" Cancelar ");
+	Panel pnlConfModificar4 = new Panel();
 //--------------Uso General--------------
 	// DIÁLOGO Éxito Alta
 	Dialog dlgExitoAlta = new Dialog(vAltaTren, "Éxito", true);
@@ -350,6 +415,12 @@ public class Vista extends Frame implements MouseListener
 	// DIÁLOGO Excel creado
 	Dialog dlgExcel = new Dialog(vAltaTren, "Éxito", true);
 	Label lblExcel = new Label("Archivo creado correctamente");
+	// DIÁLOGO Fallo Modificar
+	Dialog dlgFalloModificar = new Dialog(vDatosTren, "Error", true);
+	Label lblFalloModificar = new Label("Debe indicar todos los datos");
+	// DIÁLOGO Éxito Modificar
+	Dialog dlgExitoModificar = new Dialog(vDatosTren, "Éxito", true);
+	Label lblExitoModificar = new Label("Datos modificados");
 	
 	Modelo modelo = new Modelo();
 	Font fntHe = new Font("Arial", Font.BOLD, 16);
@@ -725,7 +796,7 @@ public class Vista extends Frame implements MouseListener
 		pnlCTren.add(btnCSVTren);
 		vConsultarTren.add(pnlCTren, BorderLayout.SOUTH);
 //--------------VENTANA Modificar Trenes--------------
-		// Seleccionar
+		// VENTANA Seleccionar
 		vSelecTren.setLayout(new GridLayout(2, 1));
 		vSelecTren.setSize(300, 180);
 		vSelecTren.setResizable(false);
@@ -739,7 +810,7 @@ public class Vista extends Frame implements MouseListener
 		vSelecTren.add(pnlSelecTren1);
 		pnlSelecTren2.add(btnEditarTren);
 		vSelecTren.add(pnlSelecTren2);
-		// Editar
+		// VENTANA Editar
 		vDatosTren.setLayout(null);
 		vDatosTren.setSize(390, 400);
 		vDatosTren.setResizable(false);
@@ -777,6 +848,31 @@ public class Vista extends Frame implements MouseListener
 		vDatosTren.add(lblDatosFechaT);
 		vDatosTren.add(txfDatosFechaT);
 		vDatosTren.add(btnModificarTren);
+		// DIÁLOGO Confirmar Modificar
+		dlgConfModificar.setLayout(new GridLayout(2, 1));
+		dlgConfModificar.setSize(210, 130);
+		dlgConfModificar.setResizable(false);
+		dlgConfModificar.setLocationRelativeTo(null);
+		dlgConfModificar.setBackground(clrAviso);
+		lblConfModificar.setAlignment(Label.CENTER);
+		lblConfModificar.setFont(fntHe);
+		btnAceptarModificar.setFont(fntMe);
+		btnCancelarModificar.setFont(fntMe);
+		btnAceptarModificar.setForeground(Color.darkGray);
+		btnCancelarModificar.setForeground(Color.darkGray);
+		pnlConfModificar.add(btnAceptarModificar);
+		pnlConfModificar.add(btnCancelarModificar);
+		dlgConfModificar.add(lblConfModificar);
+		dlgConfModificar.add(pnlConfModificar);
+		// DIÁLOGO Fallo Modificar Tren
+		dlgFalloModificarT.setLayout(new FlowLayout());
+		dlgFalloModificarT.setSize(300, 100);
+		dlgFalloModificarT.setResizable(false);
+		dlgFalloModificarT.add(lblFalloModificarT);
+		dlgFalloModificarT.setLocationRelativeTo(null);
+		dlgFalloModificarT.setBackground(clrError);
+		dlgFalloModificarT.setForeground(Color.darkGray);
+		dlgFalloModificarT.setFont(fntHe);
 //--------------VENTANA Alta Ciudades--------------
 		vAltaCiudad.setLayout(new GridLayout(3,1));
 		vAltaCiudad.setSize(300, 180);
@@ -878,7 +974,52 @@ public class Vista extends Frame implements MouseListener
 		pnlCCiudad.add(btnCSVCiudad);
 		vConsultarCiudad.add(pnlCCiudad, BorderLayout.SOUTH);
 //--------------VENTANA Modificar Ciudades--------------
-		
+		// VENTANA Seleccionar
+		vSelecCiudad.setLayout(new GridLayout(2, 1));
+		vSelecCiudad.setSize(300, 180);
+		vSelecCiudad.setResizable(false);
+		vSelecCiudad.setLocationRelativeTo(null);
+		vSelecCiudad.setBackground(Color.lightGray);
+		btnEditarCiudad.setFont(fntMe);
+		btnEditarCiudad.setForeground(Color.darkGray);
+		choSelecCiudades.setFont(fntLi);
+		choSelecCiudades.setPreferredSize(dmChoTrenes);
+		pnlSelecCiudad1.add(choSelecCiudades);
+		vSelecCiudad.add(pnlSelecCiudad1);
+		pnlSelecCiudad2.add(btnEditarCiudad);
+		vSelecCiudad.add(pnlSelecCiudad2);
+		// VENTANA Editar
+		vDatosCiudad.setLayout(new GridLayout(3,1));
+		vDatosCiudad.setSize(300, 180);
+		vDatosCiudad.setResizable(false);
+		vDatosCiudad.setLocationRelativeTo(null);
+		vDatosCiudad.setBackground(Color.lightGray);
+		lblDatosNombreC.setAlignment(Label.CENTER);
+		lblDatosNombreC.setFont(fntLi2);
+		txfDatosNombreC.setFont(fntLiB);
+		btnModificarCiudad.setFont(fntMe);
+		btnModificarCiudad.setForeground(Color.darkGray);
+		pnlModificarCiudad.add(txfDatosNombreC);
+		pnlModificarCiudad2.add(btnModificarCiudad);
+		vDatosCiudad.add(lblDatosNombreC);
+		vDatosCiudad.add(pnlModificarCiudad);
+		vDatosCiudad.add(pnlModificarCiudad2);
+		// DIÁLOGO Confirmar Modificar
+		dlgConfModificar2.setLayout(new GridLayout(2, 1));
+		dlgConfModificar2.setSize(210, 130);
+		dlgConfModificar2.setResizable(false);
+		dlgConfModificar2.setLocationRelativeTo(null);
+		dlgConfModificar2.setBackground(clrAviso);
+		lblConfModificar2.setAlignment(Label.CENTER);
+		lblConfModificar2.setFont(fntHe);
+		btnAceptarModificar2.setFont(fntMe);
+		btnCancelarModificar2.setFont(fntMe);
+		btnAceptarModificar2.setForeground(Color.darkGray);
+		btnCancelarModificar2.setForeground(Color.darkGray);
+		pnlConfModificar2.add(btnAceptarModificar2);
+		pnlConfModificar2.add(btnCancelarModificar2);
+		dlgConfModificar2.add(lblConfModificar2);
+		dlgConfModificar2.add(pnlConfModificar2);
 //--------------VENTANA Alta Estaciones--------------
 		vAltaEstacion.setLayout(new GridLayout(4, 1));
 		vAltaEstacion.setSize(420, 250);
@@ -889,6 +1030,7 @@ public class Vista extends Frame implements MouseListener
 		txfEstacionNombre.setFont(fntLiB);
 		lblEstacionDireccion.setFont(fntLi2);
 		txfEstacionDireccion.setFont(fntLiB);
+		choCiudades2.setFont(fntLi);
 		btnRegistroEstacion.setFont(fntMe);
 		btnRegistroEstacion.setForeground(Color.darkGray);
 		choCiudades2.setPreferredSize(dmChoCiudades);
@@ -1035,13 +1177,72 @@ public class Vista extends Frame implements MouseListener
 		pnlCEstacion.add(btnCSVEstacion);
 		vConsultarEstacion.add(pnlCEstacion, BorderLayout.SOUTH);
 //--------------VENTANA Modificar Estaciones--------------
-		
+		// VENTANA Seleccionar
+		vSelecEstacion.setLayout(new GridLayout(2, 1));
+		vSelecEstacion.setSize(300, 180);
+		vSelecEstacion.setResizable(false);
+		vSelecEstacion.setLocationRelativeTo(null);
+		vSelecEstacion.setBackground(Color.lightGray);
+		btnEditarEstacion.setFont(fntMe);
+		btnEditarEstacion.setForeground(Color.darkGray);
+		choSelecEstacion.setFont(fntLi);
+		choSelecEstacion.setPreferredSize(dmChoTrenes);
+		pnlSelecEstacion1.add(choSelecEstacion);
+		vSelecEstacion.add(pnlSelecEstacion1);
+		pnlSelecEstacion2.add(btnEditarEstacion);
+		vSelecEstacion.add(pnlSelecEstacion2);
+		// VENTANA Editar
+		vModificarEstacion.setLayout(new GridLayout(4, 1));
+		vModificarEstacion.setSize(420, 250);
+		vModificarEstacion.setResizable(false);
+		vModificarEstacion.setLocationRelativeTo(null);
+		vModificarEstacion.setBackground(Color.lightGray);
+		lblModificarEstacionNombre.setFont(fntLi2);
+		txfModificarEstacionNombre.setFont(fntLiB);
+		lblModificarEstacionDireccion.setFont(fntLi2);
+		txfModificarEstacionDireccion.setFont(fntLiB);
+		btnModificarEstacion.setFont(fntMe);
+		btnModificarEstacion.setForeground(Color.darkGray);
+		choModificarCiudades.setFont(fntLi);
+		choModificarCiudades.setPreferredSize(dmChoCiudades);
+		pnlModificarEstacion.add(lblModificarEstacionNombre);
+		pnlModificarEstacion.add(txfModificarEstacionNombre);
+		pnlModificarEstacion2.add(lblModificarEstacionDireccion);
+		pnlModificarEstacion2.add(txfModificarEstacionDireccion);
+		pnlModificarEstacion3.add(choModificarCiudades);
+		pnlModificarEstacion4.add(btnModificarEstacion);
+		vModificarEstacion.add(pnlModificarEstacion);
+		vModificarEstacion.add(pnlModificarEstacion2);
+		vModificarEstacion.add(pnlModificarEstacion3);
+		vModificarEstacion.add(pnlModificarEstacion4);
+		// DIÁLOGO Confirmar Modificar
+		dlgConfModificar3.setLayout(new GridLayout(2, 1));
+		dlgConfModificar3.setSize(210, 130);
+		dlgConfModificar3.setResizable(false);
+		dlgConfModificar3.setLocationRelativeTo(null);
+		dlgConfModificar3.setBackground(clrAviso);
+		lblConfModificar3.setAlignment(Label.CENTER);
+		lblConfModificar3.setFont(fntHe);
+		btnAceptarModificar3.setFont(fntMe);
+		btnCancelarModificar3.setFont(fntMe);
+		btnAceptarModificar3.setForeground(Color.darkGray);
+		btnCancelarModificar3.setForeground(Color.darkGray);
+		pnlConfModificar3.add(btnAceptarModificar3);
+		pnlConfModificar3.add(btnCancelarModificar3);
+		dlgConfModificar3.add(lblConfModificar3);
+		dlgConfModificar3.add(pnlConfModificar3);
 //--------------VENTANA Alta Paradas--------------
 		vAltaParada.setLayout(new GridLayout(3, 1));
 		vAltaParada.setSize(350, 250);
 		vAltaParada.setResizable(false);
 		vAltaParada.setLocationRelativeTo(null);
 		vAltaParada.setBackground(Color.lightGray);
+		choParadaTren.setFont(fntLi);
+		choParadaEstacion.setFont(fntLi);
+		btnRegistroParada.setFont(fntMe);
+		btnRegistroParada.setForeground(Color.darkGray);
+		choParadaTren.setPreferredSize(dmChoTrenes);
+		choParadaEstacion.setPreferredSize(dmChoEstaciones);
 		pnlAParada.add(choParadaTren);
 		pnlAParada2.add(choParadaEstacion);
 		pnlAParada3.add(btnRegistroParada);
@@ -1147,7 +1348,7 @@ public class Vista extends Frame implements MouseListener
 		dlgBParada.add(pnlBParada);
 //--------------VENTANA Consultar Paradas--------------
 		vConsultarParada.setLayout(new BorderLayout());
-		vConsultarParada.setSize(320, 310);
+		vConsultarParada.setSize(390, 310);
 		vConsultarParada.setResizable(true);
 		vConsultarParada.setLocationRelativeTo(null);
 		vConsultarParada.setBackground(Color.lightGray);
@@ -1165,7 +1366,54 @@ public class Vista extends Frame implements MouseListener
 		pnlCParada.add(btnCSVParada);
 		vConsultarParada.add(pnlCParada, BorderLayout.SOUTH);
 //--------------VENTANA Modificar Paradas--------------
-		
+		// VENTANA Seleccionar
+		vSelecParada.setLayout(new GridLayout(2, 1));
+		vSelecParada.setSize(300, 180);
+		vSelecParada.setResizable(false);
+		vSelecParada.setLocationRelativeTo(null);
+		vSelecParada.setBackground(Color.lightGray);
+		btnEditarParada.setFont(fntMe);
+		btnEditarParada.setForeground(Color.darkGray);
+		choSelecParada.setFont(fntLi);
+		choSelecParada.setPreferredSize(dmChoParadas);
+		pnlSelecParada1.add(choSelecParada);
+		vSelecParada.add(pnlSelecParada1);
+		pnlSelecParada2.add(btnEditarParada);
+		vSelecParada.add(pnlSelecParada2);
+		// VENTANA Editar
+		vModificarParada.setLayout(new GridLayout(3, 1));
+		vModificarParada.setSize(350, 250);
+		vModificarParada.setResizable(false);
+		vModificarParada.setLocationRelativeTo(null);
+		vModificarParada.setBackground(Color.lightGray);
+		choModificarParadaTren.setFont(fntLi);
+		choModificarParadaEstacion.setFont(fntLi);
+		btnModificarParada.setFont(fntMe);
+		btnModificarParada.setForeground(Color.darkGray);
+		choModificarParadaTren.setPreferredSize(dmChoTrenes);
+		choModificarParadaEstacion.setPreferredSize(dmChoEstaciones);
+		pnlModificarParada.add(choModificarParadaTren);
+		pnlModificarParada2.add(choModificarParadaEstacion);
+		pnlModificarParada3.add(btnModificarParada);
+		vModificarParada.add(pnlModificarParada);
+		vModificarParada.add(pnlModificarParada2);
+		vModificarParada.add(pnlModificarParada3);
+		// DIÁLOGO Confirmar Modificar
+		dlgConfModificar4.setLayout(new GridLayout(2, 1));
+		dlgConfModificar4.setSize(210, 130);
+		dlgConfModificar4.setResizable(false);
+		dlgConfModificar4.setLocationRelativeTo(null);
+		dlgConfModificar4.setBackground(clrAviso);
+		lblConfModificar4.setAlignment(Label.CENTER);
+		lblConfModificar4.setFont(fntHe);
+		btnAceptarModificar4.setFont(fntMe);
+		btnCancelarModificar4.setFont(fntMe);
+		btnAceptarModificar4.setForeground(Color.darkGray);
+		btnCancelarModificar4.setForeground(Color.darkGray);
+		pnlConfModificar4.add(btnAceptarModificar4);
+		pnlConfModificar4.add(btnCancelarModificar4);
+		dlgConfModificar4.add(lblConfModificar4);
+		dlgConfModificar4.add(pnlConfModificar4);
 //--------------Varios--------------
 		// DIÁLOGO Éxito Alta
 		dlgExitoAlta.setLayout(new FlowLayout());
@@ -1194,6 +1442,25 @@ public class Vista extends Frame implements MouseListener
 		dlgExitoBaja.setBackground(clrExito);
 		dlgExitoBaja.setForeground(Color.darkGray);
 		dlgExitoBaja.setFont(fntHe);
+		// DIÁLOGO Fallo Modificar
+		dlgFalloModificar.setLayout(new FlowLayout());
+		dlgFalloModificar.setSize(270, 100);
+		dlgFalloModificar.setResizable(false);
+		dlgFalloModificar.setLocationRelativeTo(null);
+		dlgFalloModificar.setBackground(clrError);
+		dlgFalloModificar.setForeground(Color.darkGray);
+		dlgFalloModificar.setFont(fntHe);
+		lblFalloModificar.setAlignment(Label.CENTER);
+		dlgFalloModificar.add(lblFalloModificar);
+		// DIÁLOGO Éxito Modificar
+		dlgExitoModificar.setLayout(new FlowLayout());
+		dlgExitoModificar.setSize(220, 100);
+		dlgExitoModificar.setResizable(false);
+		dlgExitoModificar.add(lblExitoModificar);
+		dlgExitoModificar.setLocationRelativeTo(null);
+		dlgExitoModificar.setBackground(clrExito);
+		dlgExitoModificar.setForeground(Color.darkGray);
+		dlgExitoModificar.setFont(fntHe);
 		// DIÁLOGO Excel/CSV creado
 		dlgExcel.setLayout(new FlowLayout());
 		dlgExcel.setSize(300, 100);
@@ -1205,15 +1472,4 @@ public class Vista extends Frame implements MouseListener
 		dlgExcel.setForeground(Color.darkGray);
 		dlgExcel.setFont(fntHe);
 	}
-	
-	@Override
-	public void mouseClicked(MouseEvent e) //BORRAR
-	{
-		int clickX, clickY;
-		clickX = e.getX();
-		clickY = e.getY();
-		System.out.println("Clic en X: " + clickX + ", Y: " + clickY);
-	}
-	@Override public void mousePressed(MouseEvent e){}@Override public void mouseReleased(MouseEvent e) {}
-	@Override public void mouseEntered(MouseEvent e){}@Override public void mouseExited(MouseEvent e){}
 }
